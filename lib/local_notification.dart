@@ -52,17 +52,18 @@ static Future<void> showScheduledNotification({
   print('Scheduled time: $timeOnly');
 
   // Get today's date
-  DateTime today = DateTime.now();
+
   
   // Create a new DateTime object with today's date and the extracted time
-  DateTime scheduledTimeToday = DateTime(
-    today.year,
-    today.month,
-    today.day,
-    scheduledNotificationDateTime.hour,
-    scheduledNotificationDateTime.minute,
-  );
-
+ DateTime now = DateTime.now();
+DateTime scheduledTimeToday = DateTime(
+  now.year,
+  now.month,
+  now.day,
+  scheduledNotificationDateTime.hour,
+  scheduledNotificationDateTime.minute,
+);
+print('schedulded notification : $scheduledTimeToday '  );
   // Define notification details
   const AndroidNotificationDetails androidNotificationDetails =
       AndroidNotificationDetails(
@@ -72,6 +73,7 @@ static Future<void> showScheduledNotification({
     priority: Priority.high,
     importance: Importance.max,
   );
+  
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
 

@@ -138,6 +138,7 @@ Local_Notification.showScheduledNotification(
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
+                    
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -246,7 +247,7 @@ Local_Notification.showScheduledNotification(
                                   });
                                 }
                               },
-                              icon: const Icon(Icons.calendar_today_outlined),
+                              icon: const Icon(Icons.calendar_today_outlined,    color: Color.fromRGBO(62, 177, 110, 1),),
                             ),
                           ),
                         ],
@@ -283,7 +284,7 @@ Local_Notification.showScheduledNotification(
                                   });
                                 }
                               },
-                              icon: const Icon(Icons.calendar_today_outlined),
+                              icon: const Icon(Icons.calendar_today_outlined,   color: Color.fromRGBO(62, 177, 110, 1),),
                             ),
                           ),
                         ],
@@ -321,7 +322,7 @@ Local_Notification.showScheduledNotification(
                         });
                       }
                     },
-                    icon: const Icon(Icons.access_time),
+                    icon: const Icon(Icons.access_time,   color: Color.fromRGBO(62, 177, 110, 1),),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -396,7 +397,7 @@ Local_Notification.showScheduledNotification(
                     },
                     child: const Text('Add Medicine'),
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF4e5ae8),
+                      primary: Color.fromRGBO(62, 177, 110, 1),
                       padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 20),
                       shape: RoundedRectangleBorder(
@@ -405,6 +406,7 @@ Local_Notification.showScheduledNotification(
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
               ],
             ),
           ),

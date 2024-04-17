@@ -61,7 +61,15 @@ void initState() {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Water Bottle'),
+          title: Text('Medicine details', style: TextStyle(color: Colors.black),),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Container(
             child: ListView(
@@ -210,9 +218,10 @@ class details extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       child: Container(
-        width: double.infinity,
+        
+          width: MediaQuery.of(context).size.width ,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 255, 255),
+          color: Color.fromARGB(255, 232, 232, 232),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(

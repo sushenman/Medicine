@@ -3,7 +3,7 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:medicine_reminder/addMeds.dart';
 import 'package:medicine_reminder/homeppage.dart';
-import 'package:medicine_reminder/orderHistory.dart';
+import 'package:medicine_reminder/medsHistory.dart';
 
 import 'UserProfile/profile.dart';
 class BottomNavBar extends StatefulWidget {
@@ -37,8 +37,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: class_Name[selectedIndex]),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Color.fromARGB(0, 255, 86, 86).withOpacity(0),
-        color: Color(0xFF4e5ae8),
-        buttonBackgroundColor: Color.fromARGB(255, 255, 166, 0),
+        color: Color.fromRGBO(62,177,110, 1),
+        buttonBackgroundColor: Color.fromARGB(255, 0, 0, 0),
         height: 50,
         animationDuration: Duration(milliseconds: 200),
         animationCurve: Curves.easeIn,

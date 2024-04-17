@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:medicine_reminder/UserProfile/update_profile.dart';
 import 'package:medicine_reminder/dbHelper/registerdbhelper.dart';
 
 class Profile extends StatefulWidget {
@@ -47,36 +48,42 @@ class _ProfileState extends State<Profile> {
         ),
         title: const Text(
           'Profile',
-          style: TextStyle(color: Colors.black, letterSpacing: 1.2, fontSize: 18),
+          style:
+              TextStyle(color: Colors.black, letterSpacing: 1.2, fontSize: 18),
         ),
       ),
       body: ListView(
         children: [
           imageBytes != null
               ? CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.transparent ,
-                child: ClipRRect(
+                  radius: 60,
+                  backgroundColor: Colors.transparent,
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                child: Image.memory(
+                    child: Image.memory(
                       imageBytes!,
-                      fit: BoxFit.cover,
+                      width: 100, // fixed width
+                      height: 100, // fixed height
+                      fit: BoxFit
+                          .cover, // use cover to ensure the image fills the circular space
                     ),
-                ),
-              )
+                  ),
+                )
               : Placeholder(), // Display a placeholder if imageBytes is null
-          details(data: 'Name', title: name),
-          details(data: 'Email', title: email),
-          details(data: 'Phone Number', title: phone),
+          details(title: 'Name', data: name),
+          details(title: 'Email', data: email),
+          details(title: 'Phone Number', data: phone),
           Padding(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push( context, MaterialPageRoute(builder: ( BuildContext context ) => Update_Profile(keys: widget.keys ,) ) );
+              },
               child: Text('Update Profile'),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(62, 177, 110, 1)),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  EdgeInsets.symmetric(horizontal: 50, vertical: 2),
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                 ),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -117,12 +124,20 @@ class details extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 '$title',
-                style: TextStyle(fontSize: 24, color: Colors.blue, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontFamily: 'Lato',
+                  letterSpacing: 1.2,
+                    fontSize: 24,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
               Text(
                 '$data',
-                style: TextStyle(fontSize: 20, color: const Color.fromARGB(255, 0, 0, 0)),
+                style: TextStyle(
+                   fontFamily: 'Lato',
+                  letterSpacing: 1.2,
+                    fontSize: 20, color: const Color.fromARGB(255, 0, 0, 0)),
               ),
               SizedBox(height: 10),
             ],
