@@ -20,15 +20,21 @@ String phonenumber = '';
 Uint8List? imageBytes;
 
 class _ProfileState extends State<Profile> {
-  fetchUserProfile(String keys) async {
-    final user = await RegisterDbhelper.fetchRegisterByKey(keys);
+fetchUserProfile(String keys) async {
+  final user = await RegisterDbhelper.fetchRegisterByKey(keys);
+  if (user != null) {
     setState(() {
       name = user.firstname + ' ' + user.lastname;
       email = user.email;
       phone = user.phonenumber;
       imageBytes = base64Decode(user.ProfileImage);
     });
+  } else {
+    // Handle the case when user is not found
+    // For example, show a message or navigate to a different screen
+    print('User not found with key: $keys');
   }
+}
 
   @override
   void initState() {
@@ -40,36 +46,46 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+        backgroundColor: Color.fromRGBO(62, 177, 110, 1),
         elevation: 0,
         leading: IconButton(
           onPressed: () {},
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Color.fromARGB(255, 0, 0, 0)),
         ),
         title: const Text(
           'Profile',
           style:
-              TextStyle(color: Colors.black, letterSpacing: 1.2, fontSize: 18),
+              TextStyle(color: Color.fromARGB(255, 0, 0, 0), letterSpacing: 1.2, fontSize: 18),
         ),
       ),
       body: ListView(
         children: [
-          imageBytes != null
-              ? CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.transparent,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.memory(
-                      imageBytes!,
-                      width: 100, // fixed width
-                      height: 100, // fixed height
-                      fit: BoxFit
-                          .cover, // use cover to ensure the image fills the circular space
-                    ),
-                  ),
-                )
-              : Placeholder(), // Display a placeholder if imageBytes is null
+          Container(
+            height: 200 ,
+            color: Color.fromRGBO(62, 177, 110, 1),
+            child: Column(
+              children: [
+                SizedBox(height: 40,)
+,                imageBytes != null
+                  ? CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.transparent,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.memory(
+                          imageBytes!,
+                          width: 130, // fixed width
+                          height: 130, // fixed height
+                          fit: BoxFit
+                              .cover, // use cover to ensure the image fills the circular space
+                        ),
+                      ),
+                    )
+                  : Placeholder(),
+              ],
+            ), 
+          ),
+          // Display a placeholder if imageBytes is null
           details(title: 'Name', data: name),
           details(title: 'Email', data: email),
           details(title: 'Phone Number', data: phone),
@@ -128,7 +144,7 @@ class details extends StatelessWidget {
                   fontFamily: 'Lato',
                   letterSpacing: 1.2,
                     fontSize: 24,
-                    color: Colors.blue,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),

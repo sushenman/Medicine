@@ -28,7 +28,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _confirmpassword = TextEditingController();
   String selectedImagePath = '';
   final ImagePicker _imagePicker = ImagePicker();
-  
+  String selectedImage ='';
   @override
   void initState() {
     // getRandomString(14);
@@ -46,50 +46,119 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
-  registerUser() {
-    if (_firstname.text.isEmpty ||
-        _lastname.text.isEmpty ||
-        _email.text.isEmpty ||
-        _phonenumber.text.isEmpty ||
-        _password.text.isEmpty ||
-        _confirmpassword.text.isEmpty) {
-      final snackBar = SnackBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        behavior: SnackBarBehavior.floating,
-        content: AwesomeSnackbarContent(
-          title: 'Error',
-          message: 'All fields are required',
-          contentType: ContentType.warning,
-        ),
-      );
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(snackBar);
-      return;
-    } else {
-     
-       RegisterModel register = RegisterModel(
-           firstname: _firstname.text,
-           lastname: _lastname.text,
-           ProfileImage: selectedImagePath,
-           email: _email.text,
-           phonenumber: _phonenumber.text,
-           password: _password.text,
-           confirmpassword: _confirmpassword.text,
-           key: getRandomString(14));
-           RegisterDbhelper.insertRegister(register).then((value) => {
-             print( value ),
-              ScaffoldMessenger.of(context).showSnackBar(
-           const SnackBar(
-             content: Text('Registration successfull'),
-           ),
-
-              ),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Login()))
-           } );
-    }
+registerUser() {
+  if (_firstname.text.isEmpty ||
+      _lastname.text.isEmpty ||
+      _email.text.isEmpty ||
+      _phonenumber.text.isEmpty ||
+      _password.text.isEmpty ||
+      _confirmpassword.text.isEmpty) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+      content: AwesomeSnackbarContent(
+        title: 'Error',
+        message: 'All fields are required',
+        contentType: ContentType.warning,
+      ),
+    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+    return;
+  } 
+  else if (!_email.text.contains('@')) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+      content: AwesomeSnackbarContent(
+        title: 'Error',
+        message: 'Invalid email format',
+        contentType: ContentType.warning,
+      ),
+    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+    return;
+  } 
+  else if (_phonenumber.text.length != 10) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+      content: AwesomeSnackbarContent(
+        title: 'Error',
+        message: 'Phone number must be 10 digits',
+        contentType: ContentType.warning,
+      ),
+    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+    return;
+  } 
+  else if (_password.text.length < 8 ||
+           !_password.text.contains(RegExp(r'[0-9]')) ||
+           !_password.text.contains(RegExp(r'[a-z]')) ||
+           !_password.text.contains(RegExp(r'[A-Z]')) ||
+           !_password.text.contains(RegExp(r'[!@#%^&*(),.?":{}|<>]'))) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+      content: AwesomeSnackbarContent(
+        title: 'Error',
+        message: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+        contentType: ContentType.warning,
+      ),
+    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+    return;
+  } 
+  else if (_password.text != _confirmpassword.text) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+      content: AwesomeSnackbarContent(
+        title: 'Error',
+        message: 'Passwords do not match',
+        contentType: ContentType.warning,
+      ),
+    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+    return;
   }
+  else {
+    // Proceed with registration
+    RegisterModel register = RegisterModel(
+      firstname: _firstname.text,
+      lastname: _lastname.text,
+      ProfileImage: selectedImagePath,
+      email: _email.text,
+      phonenumber: _phonenumber.text,
+      password: _password.text,
+      confirmpassword: _confirmpassword.text,
+      key: getRandomString(14),
+    );
+    RegisterDbhelper.insertRegister(register).then((value) => {
+      print(value),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registration successful'),
+        ),
+      ),
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),
+    });
+  }
+}
 
   String getRandomString(int length) {
     var random = Random.secure();
@@ -107,6 +176,7 @@ Future<void> _pickImage() async {
 
     setState(() {
       selectedImagePath = encodedImage;
+      selectedImage = pickedFile.path;
     });
   }
 }
@@ -145,7 +215,7 @@ Future<void> _pickImage() async {
                               shape: CircleBorder(),
                             ),
                             child: Image.file(
-                              File(selectedImagePath),
+                              File(selectedImage),
                               fit: BoxFit.contain,
                             ),
                           );

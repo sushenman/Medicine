@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine_reminder/Model/model.dart';
@@ -5,11 +6,12 @@ import 'package:medicine_reminder/bottomNav.dart';
 import 'package:medicine_reminder/dbHelper/dbhelper.dart';
 import 'package:medicine_reminder/homeppage.dart';
 import 'package:medicine_reminder/local_notification.dart';
+// import 'package:medicine_reminder/noti.dart';
 import 'widgets/textfield.dart';
 
 class AddMedsPage extends StatefulWidget {
-String keys;
-AddMedsPage({ required this.keys});
+  String keys;
+  AddMedsPage({required this.keys});
 
   @override
   State<AddMedsPage> createState() => _AddMedsPageState();
@@ -27,7 +29,9 @@ String selectedRepeat = RepeatList[0];
 List<String> medsType = ['Tablet', 'Syrup', 'Capsule', 'Injection', 'Drops'];
 String selectedType = medsType[0];
 Map<String, List<String>> doseTypeMap = {
-  'Tablet': ['Tabs', ],
+  'Tablet': [
+    'Tabs',
+  ],
   'Syrup': ['ml'],
   'Capsule': ['mg'],
   'Injection': ['unit', 'ml'],
@@ -39,7 +43,7 @@ class _AddMedsPageState extends State<AddMedsPage> {
   late TextEditingController name;
   late TextEditingController dose;
   late TextEditingController type;
-  late TextEditingController totaldose; 
+  late TextEditingController totaldose;
 
   @override
   void initState() {
@@ -67,27 +71,44 @@ void addMedicine() {
     );
     return;
   }
-Local_Notification.showScheduledNotification(
-  id: 0, // You can use the ID returned from the database insertion
-  title: 'Medicine Reminder',
-  body: 'It\'s time to take ${name.text}',
-  scheduledNotificationDateTime: getTime, // Schedule at the chosen time
-);
-
 
   Medicine medicine = Medicine(
     name: name.text,
     dose: int.parse(dose.text),
-    type: type.text,
+    type: selectedType, // Use the selected medication type
     TotalDose: int.parse(totaldose.text),
     startDate: getDate,
     endDate: endDate,
     time: getTime,
     Remind: selectedReminder,
-    Repeat: selectedRepeat,
+    Repeat: 'Daily',
     keys: widget.keys,
   );
 
+  // Schedule the notification
+  //for every new meds create a new id 
+  int id = DateTime.now().millisecondsSinceEpoch;
+  LocalNotification.scheduleNotificationsForPeriod(
+    id: id,
+    title: 'Medicine Reminder',
+    body: 'Please take your medicine',
+    notificationTime: TimeOfDay.fromDateTime(getTime),
+    startDate: getDate,
+    endDate: endDate,
+    payload: {'navigate': 'true', 
+    'keys': widget.keys,
+     },
+    actionButtons: [
+      NotificationActionButton(
+        key: 'TAKE',
+        label: 'Take',
+        actionType: ActionType.SilentAction,
+        
+      ),
+    ],
+  );
+
+  // Insert medication into the database
   DatabaseHelper.insertMedicine(medicine).then((value) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -95,12 +116,17 @@ Local_Notification.showScheduledNotification(
       ),
     );
 
-    // Schedule the notification
-    
-
+    // Clear text fields
     name.clear();
     dose.clear();
     type.clear();
+    totaldose.clear();
+
+    // Navigate to the home page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BottomNavBar(keys: 'ahd')),
+    );
   }).catchError((error) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -138,7 +164,6 @@ Local_Notification.showScheduledNotification(
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -247,7 +272,10 @@ Local_Notification.showScheduledNotification(
                                   });
                                 }
                               },
-                              icon: const Icon(Icons.calendar_today_outlined,    color: Color.fromRGBO(62, 177, 110, 1),),
+                              icon: const Icon(
+                                Icons.calendar_today_outlined,
+                                color: Color.fromRGBO(62, 177, 110, 1),
+                              ),
                             ),
                           ),
                         ],
@@ -271,8 +299,7 @@ Local_Notification.showScheduledNotification(
                             label: DateFormat.yMd().format(endDate),
                             customwi: IconButton(
                               onPressed: () async {
-                                DateTime? endpickerDate =
-                                    await showDatePicker(
+                                DateTime? endpickerDate = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(2000),
@@ -284,7 +311,10 @@ Local_Notification.showScheduledNotification(
                                   });
                                 }
                               },
-                              icon: const Icon(Icons.calendar_today_outlined,   color: Color.fromRGBO(62, 177, 110, 1),),
+                              icon: const Icon(
+                                Icons.calendar_today_outlined,
+                                color: Color.fromRGBO(62, 177, 110, 1),
+                              ),
                             ),
                           ),
                         ],
@@ -322,7 +352,10 @@ Local_Notification.showScheduledNotification(
                         });
                       }
                     },
-                    icon: const Icon(Icons.access_time,   color: Color.fromRGBO(62, 177, 110, 1),),
+                    icon: const Icon(
+                      Icons.access_time,
+                      color: Color.fromRGBO(62, 177, 110, 1),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -356,43 +389,45 @@ Local_Notification.showScheduledNotification(
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  child: const Text(
-                    'Repeat',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                MyInputTextField(
-                  label: '$selectedRepeat',
-                  customwi: DropdownButton(
-                    padding: const EdgeInsets.only(left: 10),
-                    isExpanded: true,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    value: selectedRepeat,
-                    items: RepeatList.map((String value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value.toString()),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedRepeat = value as String;
-                      });
-                    },
-                  ),
-                ),
+                // Container(
+                //   child: const Text(
+                //     'Repeat',
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.w500,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 10),
+                // MyInputTextField(
+                //   label: '$selectedRepeat',
+                //   customwi: DropdownButton(
+                //     padding: const EdgeInsets.only(left: 10),
+                //     isExpanded: true,
+                //     icon: const Icon(Icons.arrow_drop_down),
+                //     value: selectedRepeat,
+                //     items: RepeatList.map((String value) {
+                //       return DropdownMenuItem(
+                //         value: value,
+                //         child: Text(value.toString()),
+                //       );
+                //     }).toList(),
+                //     onChanged: (value) {
+                //       setState(() {
+                //         selectedRepeat = value as String;
+                //       });
+                //     },
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
+                      // Local_Notification.showSimpleNotification(id: 0, title: 'Tesst', body: 'Hello');
                       addMedicine();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BottomNavBar(keys: 'ahd')),
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavBar(keys: widget.keys)),
                       );
                     },
                     child: const Text('Add Medicine'),

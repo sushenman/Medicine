@@ -68,11 +68,16 @@ class RegisterDbhelper{
   }
 }
 //fetch user details by key 
-  static Future<RegisterModel> fetchRegisterByKey(String key) async {
-    final db = await database;
-    final List<Map<String, dynamic>> register = await db.query(tableName, where: 'key = ?', whereArgs: [key]);
+static Future<RegisterModel?> fetchRegisterByKey(String key) async {
+  final db = await database;
+  final List<Map<String, dynamic>> register = await db.query(tableName, where: 'key = ?', whereArgs: [key]);
+  if (register.isEmpty) {
+    print('No record found for key: $key');
+    return null; // Return null to indicate no record found
+  } else {
     return RegisterModel.fromMap(register.first);
   }
+}
  
  //update user details by key
   static Future<int> updateRegister(RegisterModel register) async {

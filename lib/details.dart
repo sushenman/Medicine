@@ -34,45 +34,37 @@ class Remain_Dose extends StatefulWidget {
 class _Remain_DoseState extends State<Remain_Dose> {
   final bottleRef = GlobalKey<SphericalBottleState>();
 
-  // late double waterLevel; // Default water level
-  // double maxWaterLevel = 0.8; // Maximum water level
-  // double minWaterLevel = 0.0; // Minimum water level
   bool isVisisble = false;
   bool isVisisble1 = true;
   bool isVisibleTotalDose = true;
   bool isVisibleTotalDose1 = false;
-late int remain; 
-void initState() {
-   remain = widget.totaldose - widget.dose;
-    super.initState();
+  late int totalDose;
 
+  @override
+  void initState() {
+    totalDose = widget.totaldose;
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    // Calculate water level based on the dose
-   
-
-    // // Make sure water level stays within bounds
-    // if (waterLevel > maxWaterLevel) {
-    //   waterLevel = maxWaterLevel;
-    // } else if (waterLevel < minWaterLevel) {
-    //   waterLevel = minWaterLevel;
-    // }
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Medicine details', style: TextStyle(color: Colors.black),),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+      appBar: AppBar(
+        title: Text(
+          'Medicine details',
+          style: TextStyle(color: Colors.black),
         ),
-        body: Container(
-            child: ListView(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Container(
+        child: ListView(
           children: [
             GestureDetector(
               onTap: () {
@@ -91,44 +83,47 @@ void initState() {
                   ),
                   Visibility(
                     child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                        child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Medicine Name',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: 20),
-                                  MyInputTextField(label: '', controller: null, ),
-                                  SizedBox(height: 20),
-                                   updateButton(label: 'Update ', onTap: (){
-                                    setState(() {
-                                      isVisisble = !isVisisble;
-                                      isVisisble1 = !isVisisble1;
-                                    });
-                                   })
-                                ],
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Text(
+                                'Medicine Name',
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w500),
                               ),
-                            ))),
+                              SizedBox(height: 20),
+                              MyInputTextField(label: '', controller: null),
+                              SizedBox(height: 20),
+                              updateButton(
+                                label: 'Update ',
+                                onTap: () {
+                                  setState(() {
+                                    isVisisble = !isVisisble;
+                                    isVisisble1 = !isVisisble1;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     visible: isVisisble,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -142,68 +137,73 @@ void initState() {
               child: Column(
                 children: [
                   Visibility(
-                    visible: isVisibleTotalDose ,
+                    visible: isVisibleTotalDose,
                     child: Container(
-                      child: details(title: 'Total Dose', data: widget.totaldose.toString()),
+                      child: details(
+                          title: 'Total Dose', data: totalDose.toString()),
                     ),
                   ),
                   Visibility(
                     child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                        child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Total Dose',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: 20),
-                                  MyInputTextField(label: '', controller: null, ),
-                                  SizedBox(height: 20),
-                                   updateButton(label: 'Update ', onTap: (){
-                                    setState(() {
-                                      isVisibleTotalDose = !isVisibleTotalDose;
-                                      isVisibleTotalDose1 = !isVisibleTotalDose1;
-                                    });
-                                   })
-                                ],
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Text(
+                                'Total Dose',
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w500),
                               ),
-                            ))),
+                              SizedBox(height: 20),
+                              MyInputTextField(label: '', controller: null),
+                              SizedBox(height: 20),
+                              updateButton(
+                                label: 'Update ',
+                                onTap: () {
+                                  setState(() {
+                                    isVisibleTotalDose = !isVisibleTotalDose;
+                                    isVisibleTotalDose1 = !isVisibleTotalDose1;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     visible: isVisibleTotalDose1,
-                  )
+                  ),
                 ],
               ),
             ),
             Container(
-              child: details(title: 'Dose Remaining', data: ' ${widget.totaldose - widget.dose}'),
+              child: details(
+                  title: 'Dose Remaining',
+                  data: ' ${widget.totaldose - widget.dose}'),
             ),
-          
-            //format the time to show only the time and if it is AM or PM
             Container(
               child: details(
                 title: 'Time',
-                data: DateFormat('hh:mm a').format(
-                    widget.time), // Format time to 12-hour format with AM/PM
+                data: DateFormat('hh:mm a').format(widget.time),
               ),
             ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 }
 
@@ -218,8 +218,7 @@ class details extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       child: Container(
-        
-          width: MediaQuery.of(context).size.width ,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 232, 232, 232),
           borderRadius: BorderRadius.circular(15),
@@ -253,9 +252,10 @@ class details extends StatelessWidget {
   }
 }
 
-class updateButton  extends StatelessWidget{
+class updateButton extends StatelessWidget {
   final String label;
   final Function() onTap;
+
   updateButton({required this.label, required this.onTap});
 
   @override
@@ -263,8 +263,6 @@ class updateButton  extends StatelessWidget{
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        // width: 105,
-        // height: 60,
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 1, 2, 0),
           borderRadius: BorderRadius.circular(7),

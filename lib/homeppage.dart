@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     fetchMedicines(selectedDate);
     super.initState();
   }
-
+  
   Future<void> fetchMedicines(DateTime selectedDate) async {
     List<Medicine> allMedicines = await DatabaseHelper.fetchMedicines();
     setState(() {

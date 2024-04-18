@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:medicine_reminder/Model/model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseHelper {
+class DatabaseHelper  extends ChangeNotifier{
   static Database? _database;
   static const String dbName = 'medicine.db';
   static const String tableName = 'medicines';
@@ -83,5 +84,17 @@ class DatabaseHelper {
       );
     });
   }
+//update the medicine 
+ static  Future<int> updateMedicine(Medicine medicine) async {
+  final db = await database;
+  // notifyListeners();
+return await db.update(tableName, medicine.toMap(),where: 'key = ?', whereArgs: [
+    medicine.keys
+  
+] );
+  
+}
+
+
 
 }
