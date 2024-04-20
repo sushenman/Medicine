@@ -2,7 +2,7 @@ class Medicine {
   int? id;
   String name;
   int dose;
-int TotalDose;
+    int TotalDose;
   String type;
   DateTime startDate;
   DateTime endDate;

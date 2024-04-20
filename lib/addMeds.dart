@@ -91,7 +91,7 @@ void addMedicine() {
   LocalNotification.scheduleNotificationsForPeriod(
     id: id,
     title: 'Medicine Reminder',
-    body: 'Please take your medicine',
+    body: 'Please take your medicine ${name.text}',
     notificationTime: TimeOfDay.fromDateTime(getTime),
     startDate: getDate,
     endDate: endDate,

@@ -85,15 +85,20 @@ class DatabaseHelper  extends ChangeNotifier{
     });
   }
 //update the medicine 
- static  Future<int> updateMedicine(Medicine medicine) async {
+static Future<int> updateMedicine(Medicine medicine) async {
   final db = await database;
-  // notifyListeners();
-return await db.update(tableName, medicine.toMap(),where: 'key = ?', whereArgs: [
-    medicine.keys
-  
-] );
-  
+  return await db.update(
+    tableName,
+    medicine.toMap(),
+    where: 'keys = ?',
+    whereArgs: [medicine.keys],
+    // Exclude 'id' from the update query
+    // id will be used in the WHERE clause for identification, but not in the SET clause
+    // The 'id' column should be automatically managed by SQLite (auto-incremented)
+    conflictAlgorithm: ConflictAlgorithm.replace, // Use ConflictAlgorithm.replace to handle primary key conflicts
+  );
 }
+
 
 
 

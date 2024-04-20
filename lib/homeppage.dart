@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine_reminder/Model/model.dart';
+import 'package:medicine_reminder/Register/login.dart';
 import 'package:medicine_reminder/UserProfile/profile.dart';
 import 'package:medicine_reminder/dbHelper/dbhelper.dart';
 import 'package:medicine_reminder/addMeds.dart';
@@ -66,7 +67,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.logout, color: Colors.white,) )
+          IconButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=> Login() ) );
+          }, icon: Icon(Icons.logout, color: Colors.white,) )
         ],
         title: const Text(
           'Medi-Alert',

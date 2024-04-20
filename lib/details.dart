@@ -36,6 +36,8 @@ class _Remain_DoseState extends State<Remain_Dose> {
 
   bool isVisisble = false;
   bool isVisisble1 = true;
+  bool isVisibletime = true;
+  bool isVisibletime1 = false;
   bool isVisibleTotalDose = true;
   bool isVisibleTotalDose1 = false;
   late int totalDose;
@@ -189,15 +191,39 @@ class _Remain_DoseState extends State<Remain_Dose> {
                 ],
               ),
             ),
-            Container(
-              child: details(
-                  title: 'Dose Remaining',
-                  data: ' ${widget.totaldose - widget.dose}'),
-            ),
-            Container(
-              child: details(
-                title: 'Time',
-                data: DateFormat('hh:mm a').format(widget.time),
+            // Container(
+            //   child: details(
+            //       title: 'Dose Remaining',
+            //       data: ' ${widget.totaldose - widget.dose}'),
+            // ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isVisibletime = !isVisibletime;
+                  isVisibletime1 = !isVisibletime1;
+                });
+              },
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isVisibletime = !isVisibletime;
+                        isVisibletime1 = !isVisibletime1;
+                      });
+                    },
+                    child: Visibility(
+                      visible: isVisibletime,
+                      child: Container(
+                        child: details(
+                          title: 'Time',
+                          data: DateFormat('hh:mm a').format(widget.time),
+                        ),
+                      ),
+                    ),
+                    
+                  ),
+                ],
               ),
             ),
           ],

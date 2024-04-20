@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicine_reminder/Model/model.dart';
 import 'package:medicine_reminder/dbHelper/dbhelper.dart';
+import 'package:medicine_reminder/local_notification.dart';
 
 class medsNotification extends StatefulWidget {
   final String keys;
@@ -26,7 +27,7 @@ class _medsNotificationState extends State<medsNotification> {
     List<Medicine> allMedicines = await DatabaseHelper.fetchMedicines();
     List<Medicine> filteredMedicines =
         allMedicines.where((medicine) => medicine.keys == widget.keys).toList();
-
+print(filteredMedicines.toList());
     // Filter medicines based on the current time
     DateTime now = DateTime.now();
     filteredMedicines = filteredMedicines
@@ -39,25 +40,44 @@ class _medsNotificationState extends State<medsNotification> {
       if (medicine.TotalDose > 0) {
         medicine.TotalDose -= medicine.dose;
         // Update the total dose in the database
-        DatabaseHelper.updateMedicine(Medicine(
-            name: medicine.name,
-            dose: medicine.dose,
-            TotalDose:  medicine.TotalDose,
-            type: medicine.type,
-            startDate: medicine.startDate,
-            endDate: medicine.endDate,
-            time: medicine.time,
-            Remind: medicine.Remind,
-            Repeat: medicine.Repeat,
-            keys: widget.keys));
+      await DatabaseHelper.updateMedicine(Medicine(
+        id: medicine.id,
+    name: medicine.name,
+
+    TotalDose: (medicine.TotalDose),
+    dose: medicine.dose,
+    type: medicine.type,
+    startDate: medicine.startDate,
+    endDate: medicine.endDate,
+    time: medicine.time,
+    Remind: medicine.Remind,
+    Repeat: medicine.Repeat,
+    keys: widget.keys));
         print('Medicine dose updated ${medicine.TotalDose}');
       }
+if(medicine.TotalDose == 0 )
+{
+   int id = DateTime.now().millisecondsSinceEpoch; 
+    LocalNotification.scheduleNotificationsForPeriod(
+    id: id,
+    title: 'Medicine Reminder',
+    body: 'Please Refill Your medicine',
+    notificationTime: TimeOfDay.fromDateTime( DateTime.now().add(Duration(minutes: 1))),
+    startDate: DateTime.now(),
+    endDate: DateTime.now().add(Duration(minutes:  3)),
+);
+
+}
+ 
+
     }
 
     setState(() {
       medicines = filteredMedicines;
     });
-  }
+
+
+     }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +87,7 @@ class _medsNotificationState extends State<medsNotification> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Medicine Reminder',
+              'Don \'t Forget to take your medicine', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Lato'),
             ),
           ],
         ),
