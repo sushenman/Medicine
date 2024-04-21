@@ -136,8 +136,27 @@ registerUser() {
       ..showSnackBar(snackBar);
     return;
   }
+ 
+
+  
   else {
-      //check if the email already exists
+    
+
+   
+
+
+
+       RegisterModel register = RegisterModel(
+      firstname: _firstname.text,
+      lastname: _lastname.text,
+      ProfileImage: selectedImagePath,
+      email: _email.text,
+      phonenumber: _phonenumber.text,
+      password: _password.text,
+      confirmpassword: _confirmpassword.text,
+      key: getRandomString(14),
+    );
+    //check if email already exists 
     RegisterDbhelper.fetchRegisterByEmail(_email.text).then((value) {
       if (value != null) {
         final snackBar = SnackBar(
@@ -153,31 +172,38 @@ registerUser() {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(snackBar);
-        return;
-      }
-      else
-      {
-          RegisterModel register = RegisterModel(
-      firstname: _firstname.text,
-      lastname: _lastname.text,
-      ProfileImage: selectedImagePath,
-      email: _email.text,
-      phonenumber: _phonenumber.text,
-      password: _password.text,
-      confirmpassword: _confirmpassword.text,
-      key: getRandomString(14),
-    );
-    RegisterDbhelper.insertRegister(register).then((value) => {
-      print(value),
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registration successful'),
-        ),
-      ),
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),
-    });
+      } else {
+        // Proceed with registration
+        RegisterDbhelper.insertRegister(register).then((value) {
+          final snackBar = SnackBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            behavior: SnackBarBehavior.floating,
+            content: AwesomeSnackbarContent(
+              title: 'Success',
+              message: 'Registration successful',
+              contentType: ContentType.success,
+            ),
+          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar);
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          });
+        });
       }
     });
+    // RegisterDbhelper.insertRegister(register).then((value) => {
+    //   print(value),
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Registration successful'),
+    //     ),
+    //   ),
+    //   Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),
+    // });
     
 
     // Proceed with registration

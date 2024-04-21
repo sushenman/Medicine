@@ -49,11 +49,16 @@ class RegisterDbhelper{
       return RegisterModel.fromMap(register[index]);
     });
   }
-  static Future<RegisterModel> fetchRegisterByEmail(String email) async {
-    final db = await database;
-    final List<Map<String, dynamic>> register = await db.query(tableName, where: 'email = ?', whereArgs: [email]);
+static Future<RegisterModel?> fetchRegisterByEmail(String email) async {
+  final db = await database;
+  final List<Map<String, dynamic>> register = await db.query(tableName, where: 'email = ?', whereArgs: [email]);
+  if (register.isNotEmpty) {
     return RegisterModel.fromMap(register.first);
+  } else {
+    return null; // Return null if no records are found
   }
+}
+
   static Future<Map<String, dynamic>> fetchRegisterByEmailAndPassword(String email, String password) async {
   final db = await database;
   final List<Map<String, dynamic>> register = await db.query(tableName, where: 'email = ? AND password = ?', whereArgs: [email, password]);

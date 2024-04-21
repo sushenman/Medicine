@@ -81,7 +81,7 @@ fetchUserProfile(String keys) async {
                         ),
                       ),
                     )
-                  : Placeholder(),
+                  : Container(),
               ],
             ), 
           ),
