@@ -3,14 +3,14 @@ import 'package:medicine_reminder/dbHelper/dbhelper.dart'; // Import your Databa
 import '../Model/model.dart';
 import 'package:intl/intl.dart';
 
-class OrderHistory extends StatefulWidget {
-  const OrderHistory({Key? key});
+class MedsHistory extends StatefulWidget {
+  const MedsHistory({Key? key});
 
   @override
-  State<OrderHistory> createState() => _OrderHistoryState();
+  State<MedsHistory> createState() => _MedsHistoryState();
 }
 
-class _OrderHistoryState extends State<OrderHistory> {
+class _MedsHistoryState extends State<MedsHistory> {
   late List<Medicine> endedMedications = [];
 
   @override

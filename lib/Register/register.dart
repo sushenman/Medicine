@@ -8,7 +8,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:medicine_reminder/Model/registermodel.dart';
 import 'package:medicine_reminder/Register/login.dart';
 import 'package:medicine_reminder/dbHelper/registerdbhelper.dart';
-import 'package:medicine_reminder/widgets/button.dart';
+// import 'package:medicine_reminder/widgets/button.dart';
 import 'package:medicine_reminder/widgets/textfield.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -137,8 +137,27 @@ registerUser() {
     return;
   }
   else {
-    // Proceed with registration
-    RegisterModel register = RegisterModel(
+      //check if the email already exists
+    RegisterDbhelper.fetchRegisterByEmail(_email.text).then((value) {
+      if (value != null) {
+        final snackBar = SnackBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          behavior: SnackBarBehavior.floating,
+          content: AwesomeSnackbarContent(
+            title: 'Error',
+            message: 'Email already exists',
+            contentType: ContentType.warning,
+          ),
+        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+        return;
+      }
+      else
+      {
+          RegisterModel register = RegisterModel(
       firstname: _firstname.text,
       lastname: _lastname.text,
       ProfileImage: selectedImagePath,
@@ -157,6 +176,12 @@ registerUser() {
       ),
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),
     });
+      }
+    });
+    
+
+    // Proceed with registration
+
   }
 }
 
@@ -275,6 +300,7 @@ Future<void> _pickImage() async {
               MyInputTextField(
                 label: "Password",
                 controller: _password,
+                obscuretest: true ,
               ),
               SizedBox(
                 height: 30,
@@ -282,6 +308,7 @@ Future<void> _pickImage() async {
               MyInputTextField(
                 label: "Confirm Password",
                 controller: _confirmpassword,
+                obscuretest: true ,
               ),
               SizedBox(
                 height: 30,

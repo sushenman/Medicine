@@ -26,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     class_Name = [
       HomePage(keys: widget.keys),
       AddMedsPage(keys: widget.keys),
-      OrderHistory(),
+      MedsHistory(),
       Profile(keys: widget.keys)
     ];
   }

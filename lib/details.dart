@@ -5,7 +5,7 @@ import 'package:medicine_reminder/Model/model.dart'; // Import your MedicineMode
 import 'package:medicine_reminder/dbHelper/dbhelper.dart'; // Import your DatabaseHelper class
 import 'package:intl/intl.dart';
 
-import 'widgets/button.dart';
+// import 'widgets/button.dart';
 
 class Remain_Dose extends StatefulWidget {
   String keys;
