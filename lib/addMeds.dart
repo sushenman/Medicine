@@ -123,10 +123,7 @@ void addMedicine() {
     totaldose.clear();
 
     // Navigate to the home page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => BottomNavBar(keys: 'ahd')),
-    );
+
   }).catchError((error) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -424,11 +421,11 @@ void addMedicine() {
                     onPressed: () {
                       // Local_Notification.showSimpleNotification(id: 0, title: 'Tesst', body: 'Hello');
                       addMedicine();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomNavBar(keys: widget.keys)),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => BottomNavBar(keys: widget.keys)),
+                      // );
                     },
                     child: const Text('Add Medicine'),
                     style: ElevatedButton.styleFrom(

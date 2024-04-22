@@ -17,7 +17,7 @@ String name = '';
 String email = '';
 String phone = '';
 String phonenumber = '';
-Uint8List? imageBytes;
+Uint8List imageBytes = Uint8List(0) ;
 
 class _ProfileState extends State<Profile> {
 fetchUserProfile(String keys) async {
@@ -66,22 +66,31 @@ fetchUserProfile(String keys) async {
             child: Column(
               children: [
                 SizedBox(height: 40,)
-,                imageBytes != null
-                  ? CircleAvatar(
-                      radius: 80,
-                      backgroundColor: Colors.transparent,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.memory(
-                          imageBytes!,
-                          width: 130, // fixed width
-                          height: 130, // fixed height
-                          fit: BoxFit
-                              .cover, // use cover to ensure the image fills the circular space
-                        ),
-                      ),
-                    )
-                  : Container(),
+,              imageBytes!.contains('Exception')
+  ? CircleAvatar(
+      radius: 80,
+      backgroundColor: Colors.transparent,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Image.memory(
+          imageBytes!,
+          width: 130,
+          height: 130,
+          fit: BoxFit.cover,
+        ),
+      ),
+    )
+  : Container(
+      child: CircleAvatar(
+        radius: 80,
+        backgroundColor: Colors.transparent,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: Image.asset('assets/images/icon.png', width: 130, height: 130, fit: BoxFit.cover,)
+        ),
+      ),
+    )
+
               ],
             ), 
           ),

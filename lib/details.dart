@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 // import 'widgets/button.dart';
 
 class Remain_Dose extends StatefulWidget {
+  int id;
   String keys;
   String name;
   int totaldose;
@@ -16,16 +17,21 @@ class Remain_Dose extends StatefulWidget {
   DateTime time;
   DateTime startDate;
   DateTime endDate;
+  int remind;
+  String repeat;
 
   Remain_Dose(
-      {required this.keys,
+      {required this.id,
+      required this.keys,
       required this.name,
       required this.totaldose,
       required this.dose,
       required this.type,
       required this.time,
       required this.startDate,
-      required this.endDate});
+      required this.endDate,
+      required this.remind,
+      required this.repeat});
 
   @override
   State<Remain_Dose> createState() => _Remain_DoseState();
@@ -41,6 +47,10 @@ class _Remain_DoseState extends State<Remain_Dose> {
   bool isVisibleTotalDose = true;
   bool isVisibleTotalDose1 = false;
   late int totalDose;
+  TextEditingController totalDoseController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  DateTime getTime = DateTime.now();
+  DateTime getDate = DateTime.now();
 
   @override
   void initState() {
@@ -108,14 +118,55 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 20),
-                              MyInputTextField(label: '', controller: null),
+                              MyInputTextField(
+                                  label: widget.name,
+                                  controller: nameController),
                               SizedBox(height: 20),
                               updateButton(
                                 label: 'Update ',
                                 onTap: () {
                                   setState(() {
-                                    isVisisble = !isVisisble;
-                                    isVisisble1 = !isVisisble1;
+                                    if (nameController.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Please enter a name'),
+                                        ),
+                                      );
+                                    } else {
+                                      DatabaseHelper.updateMedicine(Medicine(
+                                        id: widget.id,
+                                        keys: widget.keys,
+                                        name: nameController.text,
+                                        dose: widget.dose,
+                                        TotalDose: widget.totaldose,
+                                        type: widget.type,
+                                        startDate: widget.startDate,
+                                        endDate: widget.endDate,
+                                        time: widget.time,
+                                        Remind: widget.remind,
+                                        Repeat: widget.repeat,
+                                      ));
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return Remain_Dose(
+                                          id: widget.id,
+                                          keys: widget.keys,
+                                          name: nameController.text,
+                                          dose: widget.dose,
+                                          totaldose: widget.totaldose,
+                                          type: widget.type,
+                                          startDate: widget.startDate,
+                                          endDate: widget.endDate,
+                                          time: widget.time,
+                                          remind: widget.remind,
+                                          repeat: widget.repeat,
+                                        );
+                                      }));
+                                      isVisisble = !isVisisble;
+                                      isVisisble1 = !isVisisble1;
+                                    }
                                   });
                                 },
                               ),
@@ -129,6 +180,7 @@ class _Remain_DoseState extends State<Remain_Dose> {
                 ],
               ),
             ),
+
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -170,12 +222,58 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 20),
-                              MyInputTextField(label: '', controller: null),
+                              MyInputTextField(
+                                  label: widget.totaldose.toString(),
+                                  controller: totalDoseController),
                               SizedBox(height: 20),
                               updateButton(
                                 label: 'Update ',
                                 onTap: () {
                                   setState(() {
+                                    if (totalDoseController.text.isEmpty)
+                                    {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Please enter a total dose'),
+                                        ),
+                                      );
+                                    }
+                                    else
+                                    {
+                                      DatabaseHelper.updateMedicine(Medicine(
+                                        id: widget.id,
+                                        keys: widget.keys,
+                                        name: widget.name,
+                                        dose: widget.dose,
+                                        TotalDose:
+                                            int.parse(totalDoseController.text),
+                                        type: widget.type,
+                                        startDate: widget.startDate,
+                                        endDate: widget.endDate,
+                                        time: widget.time,
+                                        Remind: widget.remind,
+                                        Repeat: widget.repeat,
+                                      ));
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return Remain_Dose(
+                                        id: widget.id,
+                                        keys: widget.keys,
+                                        name: widget.name,
+                                        dose: widget.dose,
+                                        totaldose:
+                                            int.parse(totalDoseController.text),
+                                        type: widget.type,
+                                        startDate: widget.startDate,
+                                        endDate: widget.endDate,
+                                        time: widget.time,
+                                        remind: widget.remind,
+                                        repeat: widget.repeat,
+                                      );
+                                    }));
+                                    }
+
                                     isVisibleTotalDose = !isVisibleTotalDose;
                                     isVisibleTotalDose1 = !isVisibleTotalDose1;
                                   });
@@ -212,16 +310,121 @@ class _Remain_DoseState extends State<Remain_Dose> {
                         isVisibletime1 = !isVisibletime1;
                       });
                     },
-                    child: Visibility(
-                      visible: isVisibletime,
-                      child: Container(
-                        child: details(
-                          title: 'Time',
-                          data: DateFormat('hh:mm a').format(widget.time),
+                    child: Column(
+                      children: [
+                        Visibility(
+                          visible: isVisibletime,
+                          child: Container(
+                            child: details(
+                              title: 'Time',
+                              data: DateFormat('hh:mm a').format(widget.time),
+                            ),
+                          ),
                         ),
-                      ),
+                        Visibility(
+                            visible: isVisibletime1,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 20),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Time',
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(height: 20),
+                                      MyInputTextField(
+                                        label: DateFormat.jm().format(getTime),
+                                        customwi: IconButton(
+                                          onPressed: () async {
+                                            TimeOfDay? pickerTime =
+                                                await showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now(),
+                                            );
+                                            if (pickerTime != null) {
+                                              setState(() {
+                                                getTime = DateTime(
+                                                  getDate.year,
+                                                  getDate.month,
+                                                  getDate.day,
+                                                  pickerTime.hour,
+                                                  pickerTime.minute,
+                                                );
+                                              });
+                                            }
+                                          },
+                                          icon: const Icon(
+                                            Icons.calendar_today_outlined,
+                                            color:
+                                                Color.fromRGBO(62, 177, 110, 1),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      updateButton(
+                                        label: 'Update ',
+                                        onTap: () {
+                                          setState(() {
+                                            DatabaseHelper.updateMedicine(
+                                                Medicine(
+                                              id: widget.id,
+                                              keys: widget.keys,
+                                              name: widget.name,
+                                              dose: widget.dose,
+                                              TotalDose: widget.totaldose,
+                                              type: widget.type,
+                                              startDate: widget.startDate,
+                                              endDate: widget.endDate,
+                                              time: getDate,
+                                              Remind: widget.remind,
+                                              Repeat: widget.repeat,
+                                            ));
+                                            Navigator.pushReplacement(context,
+                                                MaterialPageRoute(builder:
+                                                    (BuildContext context) {
+                                              return Remain_Dose(
+                                                id: widget.id,
+                                                keys: widget.keys,
+                                                name: widget.name,
+                                                dose: widget.dose,
+                                                totaldose: widget.totaldose,
+                                                type: widget.type,
+                                                startDate: widget.startDate,
+                                                endDate: widget.endDate,
+                                                time: getDate,
+                                                remind: widget.remind,
+                                                repeat: widget.repeat,
+                                              );
+                                            }));
+                                            isVisibletime = !isVisibletime;
+                                            isVisibletime1 = !isVisibletime1;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ))
+                      ],
                     ),
-                    
                   ),
                 ],
               ),

@@ -17,6 +17,9 @@ class Login extends StatefulWidget {
 TextEditingController _email = TextEditingController();
 TextEditingController _password = TextEditingController();
 
+bool obscureText = true;
+
+Icon icon = Icon(Icons.remove_red_eye);
 class CustomClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -53,10 +56,23 @@ class _LoginState extends State<Login> {
         child: Stack(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width ,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(21, 26, 26, 1),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 100,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0.0),
+                    child: Text('WELCOME', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'RubikDoodleShadow', letterSpacing: 1.2 ),),
+                  ),
+                ],
               ),
               // child: Image.asset('assets/images/bookslogos.png', fit: BoxFit.cover,),
             ),
@@ -168,10 +184,24 @@ class _LoginState extends State<Login> {
                                 ),
                                 child: TextFormField(
                                   controller: _password,
-                                  obscureText: true,
+                                  obscureText: obscureText,
                                   decoration: InputDecoration(
                                     contentPadding:
                                         EdgeInsets.only(left: 10, bottom: 10),
+                                    suffixIcon: IconButton(
+                                      icon: icon,
+                                      onPressed: () {
+                                        setState(() {
+                                          obscureText = !obscureText;
+                                          if (obscureText) {
+                                            icon = Icon(Icons.remove_red_eye);
+                                          } else {
+                                            icon = Icon(Icons.visibility_off);
+                                          }
+                                        });
+                                      },
+                                    
+                                    ),
                                     hintText: 'Password',
                                     hintStyle: TextStyle(
                                       color: Colors.grey,

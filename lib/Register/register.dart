@@ -29,6 +29,10 @@ class _RegisterState extends State<Register> {
   String selectedImagePath = '';
   final ImagePicker _imagePicker = ImagePicker();
   String selectedImage ='';
+  Icon icon1 = Icon(Icons.remove_red_eye);
+  Icon icon2 = Icon(Icons.remove_red_eye);
+  bool obscureText = true;
+  bool obscureText2 = true;
   @override
   void initState() {
     // getRandomString(14);
@@ -323,19 +327,66 @@ Future<void> _pickImage() async {
               SizedBox(
                 height: 30,
               ),
-              MyInputTextField(
-                label: "Password",
-                controller: _password,
-                obscuretest: true ,
+            TextFormField(
+              obscureText: obscureText,
+              controller: _password,
+              decoration: InputDecoration(
+                 contentPadding: EdgeInsets.only(left: 10),
+                labelText: 'Password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                    
+                ),
+                suffixIcon: IconButton(
+                  icon: icon1,
+                  onPressed: () {
+                    setState(() {
+                      icon1 = icon1.icon == Icons.remove_red_eye
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.remove_red_eye);
+                      // _passwordVisible = !_passwordVisible;
+                      obscureText = !obscureText;
+                      
+                    });
+                  },
+                ),
+
+                
               ),
+            ),
+             
               SizedBox(
                 height: 30,
               ),
-              MyInputTextField(
-                label: "Confirm Password",
-                controller: _confirmpassword,
-                obscuretest: true ,
+             TextFormField(
+              obscureText: obscureText2,
+              
+              controller: _confirmpassword,
+              decoration: InputDecoration(
+                 contentPadding: EdgeInsets.only(left: 10),
+                labelText: 'Confirm Password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                    
+                ),
+                suffixIcon: IconButton(
+                  icon: icon2,
+                  onPressed: () {
+                    setState(() {
+                      icon2 = icon2.icon == Icons.remove_red_eye
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.remove_red_eye);
+                      // _passwordVisible = !_passwordVisible;
+                      obscureText2 = !obscureText2;
+                      
+                    });
+                  },
+                ),
+
+                
               ),
+            ),
+             
               SizedBox(
                 height: 30,
               ),

@@ -239,6 +239,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) => Remain_Dose(
+                              id: medicine.id!,
                                 keys: widget.keys,
                                 name: medicine.name,
                                 dose: medicine.dose,
@@ -246,7 +247,10 @@ class _HomePageState extends State<HomePage> {
                                 type: medicine.type,
                                 startDate: medicine.startDate,
                                 endDate: medicine.endDate,
-                                time: medicine.time),
+                                time: medicine.time,
+                                remind: medicine.Remind,
+                                repeat: medicine.Repeat ,
+                                ),
                           )),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
