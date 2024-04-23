@@ -51,63 +51,76 @@ class _Update_ProfileState extends State<Update_Profile> {
     fetchUserProfile(widget.keys);
     super.initState();
   }
+Future<bool> _validateInputs() async {
+  if (firstController.text.isEmpty ||
+      lastController.text.isEmpty ||
+      emailController.text.isEmpty ||
+      phoneController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('All fields are required'),
+      ),
+    );
+    return false;
+  } else if (!emailController.text.contains('@')) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Invalid email format'),
+      ),
+    );
+    return false;
+  } else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text)) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Phone number must be digits only'),
+      ),
+    );
+    return false;
+  } else if (phoneController.text.length != 10) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Phone number must be 10 digits'),
+      ),
+    );
+    return false;
+  }
 
-  bool _validateInputs() {
-    if (firstController.text.isEmpty ||
-        lastController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        phoneController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('All fields are required'),
-        ),
-      );
-      return false;
-    } else if (!emailController.text.contains('@')) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invalid email format'),
-        ),
-      );
-      return false;
-    }
-    else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text)) {
-   ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Phone number must be digits only'),
-        ),
-      );
-  return false;
-}
-
- 
-    else if (phoneController.text.length != 10) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Phone number must be 10 digits'),
-        ),
-      );
-      return false;
-    }
-    //check if the email is already registered 
-    else if( emailController.text != email){
-      RegisterDbhelper.fetchRegisterByEmail(emailController.text).then((value) {
-        if (value != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Email already registered'),
-            ),
-          );
-          return false;
-        }
-        else
-        {
-          
-        }
-      });
-    }
+  // Check if the email is already registered
+  final existingUser = await RegisterDbhelper.fetchRegisterByEmail(emailController.text);
+  if (existingUser != null) {
+    // Email already exists
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Email already registered'),
+      ),
+    );
+    return false;
+  } else {
+    // Email doesn't exist, proceed with the update process
+    _updateProfile();
     return true;
   }
+}
+
+void _updateProfile() {
+  RegisterDbhelper.updateRegister(
+    RegisterModel(
+      firstname: firstController.text,
+      lastname: lastController.text,
+      email: emailController.text,
+      phonenumber: phoneController.text,
+      password: password,
+      confirmpassword: confirmpassword,
+      ProfileImage: image,
+      id: id,
+      key: widget.keys,
+    ),
+  );
+  final snackBar = SnackBar(
+    content: Text('Profile updated successfully'),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -266,25 +279,7 @@ class _Update_ProfileState extends State<Update_Profile> {
                                 height: 50,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (_validateInputs()) {
-                                      RegisterDbhelper.updateRegister(
-                                        RegisterModel(
-                                          firstname: firstController.text,
-                                          lastname: lastController.text,
-                                          email: emailController.text,
-                                          phonenumber: phoneController.text,
-                                          password: password,
-                                          confirmpassword: confirmpassword,
-                                          ProfileImage: image,
-                                          id: id,
-                                          key: widget.keys,
-                                        ),
-                                      );
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (BuildContext context) => BottomNavBar(keys: widget.keys)),
-                                      );
-                                    }
+                                    _validateInputs();
                                   },
                                   child: Text(
                                     'Update',
