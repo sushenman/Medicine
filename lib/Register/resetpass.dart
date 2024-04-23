@@ -21,6 +21,10 @@ class _resetPasswordState extends State<resetPassword> {
   String profileImage = '';
   String key = '';
   int? id = 0;
+  Icon icon1 =  Icon(Icons.remove_red_eye);
+  Icon icon2 =  Icon(Icons.remove_red_eye);
+  bool obscureText = true;
+  bool obscureText1 = true;
 
 @override
 void initState() {
@@ -59,7 +63,24 @@ Future<void> _fetchRegisterByEmail() async {
   resetPass() {
 
 
-    if (_password.text.length < 8 ||
+   
+     if(_password.text.isEmpty || _confirmpassword.text.isEmpty){
+      final snackBar = SnackBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        behavior: SnackBarBehavior.floating,
+        content: AwesomeSnackbarContent(
+          title: 'Error',
+          message: 'Password cannot be empty',
+          contentType: ContentType.warning,
+        ),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
+      return;
+    }
+    else if (_password.text.length < 8 ||
         !_password.text.contains(RegExp(r'[0-9]')) ||
         !_password.text.contains(RegExp(r'[a-z]')) ||
         !_password.text.contains(RegExp(r'[A-Z]')) ||
@@ -79,7 +100,8 @@ Future<void> _fetchRegisterByEmail() async {
         ..hideCurrentSnackBar()
         ..showSnackBar(snackBar);
       return;
-    } else if (_password.text != _confirmpassword.text) {
+    } 
+    else if (_password.text != _confirmpassword.text) {
       final snackBar = SnackBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -140,59 +162,85 @@ Future<void> _fetchRegisterByEmail() async {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(40),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Text('Enter your new password',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Lato',
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w500)),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _password,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _confirmpassword,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm Password',
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(0, 158, 148, 1),
-                    // minimumSize: Size(MediaQuery.of(context).size.width, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(40),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text('Enter your new password',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Lato',
+                          letterSpacing: 1.2,
+                          fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _password,
+                    obscureText: obscureText,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(onPressed: (){
+                        setState(() {
+                          obscureText = !obscureText;
+                          if(obscureText){
+                            icon1 = Icon(Icons.remove_red_eye);
+                          }else{
+                            icon1 = Icon(Icons.visibility_off);
+                          }
+                        });
+                      }, icon: icon1 ) ,
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
                     ),
                   ),
-                  onPressed: () {
-                    resetPass();
-                  },
-                  child: const Text('Reset Password'),
-                ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _confirmpassword,
+                    obscureText: obscureText1,
+                    decoration:  InputDecoration(
+                      border: OutlineInputBorder(),
+                      suffixIcon: IconButton(onPressed: (){
+                        setState(() {
+                          obscureText1 = !obscureText1;
+                          if(obscureText1){
+                            icon2 = Icon(Icons.remove_red_eye);
+                          }else{
+                            icon2 = Icon(Icons.visibility_off);
+                          }
+                        });
+                      }, icon: icon2 ) ,
+                      labelText: 'Confirm Password',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromRGBO(0, 158, 148, 1),
+                        // minimumSize: Size(MediaQuery.of(context).size.width, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      onPressed: () {
+                        resetPass();
+                      },
+                      child: const Text('Reset Password'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {
+                      // Navigate to login page
+                    },
+                    child: const Text('Back to Login'),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed: () {
-                  // Navigate to login page
-                },
-                child: const Text('Back to Login'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
