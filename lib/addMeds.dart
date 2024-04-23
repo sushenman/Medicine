@@ -91,7 +91,7 @@ void addMedicine() {
   LocalNotification.scheduleNotificationsForPeriod(
     id: id,
     title: 'Medicine Reminder',
-    body: 'Please take your medicine ${name.text}',
+    body: 'Please take your medicine ${name.text}, dose: ${dose.text}',
     notificationTime: TimeOfDay.fromDateTime(getTime),
     startDate: getDate,
     endDate: endDate,
@@ -121,7 +121,10 @@ void addMedicine() {
     dose.clear();
     type.clear();
     totaldose.clear();
-
+    
+Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+  return BottomNavBar(keys: widget.keys);
+} ) );
     // Navigate to the home page
 
   }).catchError((error) {

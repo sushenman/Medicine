@@ -98,7 +98,15 @@ static Future<int> updateMedicine(Medicine medicine) async {
     conflictAlgorithm: ConflictAlgorithm.replace, // Use ConflictAlgorithm.replace to handle primary key conflicts
   );
 }
-
+//delete 
+static Future<int> deleteMedicine(Medicine medicine) async {
+  final db = await database;
+  return await db.delete(
+    tableName,
+    where: 'id = ?', // assuming id is the unique identifier
+    whereArgs: [medicine.id],
+  );
+}
 
 
 

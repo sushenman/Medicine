@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:medicine_reminder/Model/registermodel.dart';
+import 'package:medicine_reminder/Register/forgotpassword.dart';
 import 'package:medicine_reminder/Register/register.dart';
 import 'package:medicine_reminder/bottomNav.dart';
 import 'package:medicine_reminder/homeppage.dart';
@@ -16,10 +18,12 @@ class Login extends StatefulWidget {
 
 TextEditingController _email = TextEditingController();
 TextEditingController _password = TextEditingController();
+TextEditingController emailConfirm = TextEditingController();
 
 bool obscureText = true;
 
 Icon icon = Icon(Icons.remove_red_eye);
+
 class CustomClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -56,7 +60,7 @@ class _LoginState extends State<Login> {
         child: Stack(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width ,
+              width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(21, 26, 26, 1),
@@ -70,7 +74,15 @@ class _LoginState extends State<Login> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 0.0),
-                    child: Text('WELCOME', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'RubikDoodleShadow', letterSpacing: 1.2 ),),
+                    child: Text(
+                      'WELCOME',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'RubikDoodleShadow',
+                          letterSpacing: 1.2),
+                    ),
                   ),
                 ],
               ),
@@ -200,7 +212,6 @@ class _LoginState extends State<Login> {
                                           }
                                         });
                                       },
-                                    
                                     ),
                                     hintText: 'Password',
                                     hintStyle: TextStyle(
@@ -221,68 +232,187 @@ class _LoginState extends State<Login> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          showDialog(
-                              context: context,
+                          Navigator.push(context, MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(
-                                    'Forgot Password',
-                                    style: TextStyle(
-                                        fontSize: 16, letterSpacing: 1.2),
-                                  ),
-                                  content: Container(
-                                    height: 120,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                            'Enter your email address to reset your password'),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: TextFormField(
-                                            obscureText: true,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.only(left: 20),
-                                              hintText: 'Email',
-                                              hintStyle: TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      child: Text('Send Password reset link'),
-                                      style: ElevatedButton.styleFrom(
-                                          primary:
-                                              Color.fromRGBO(0, 158, 148, 1),
-                                          minimumSize: Size(
-                                              MediaQuery.of(context).size.width,
-                                              50),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          )),
-                                    )
-                                  ],
-                                );
-                              });
+                            return ForgotPassword();
+                          }));
+                          //                     showDialog(
+                          //                         context: context,
+                          //                         builder: (BuildContext context) {
+                          //                           return AlertDialog(
+                          //                             title: Text(
+                          //                               'Forgot Password',
+                          //                               style: TextStyle(
+                          //                                   fontSize: 16, letterSpacing: 1.2),
+                          //                             ),
+                          //                             content: Container(
+                          //                               height: 120,
+                          //                               child: Column(
+                          //                                 children: [
+                          //                                   Text(
+                          //                                       'Enter your email address to reset your password'),
+                          //                                   SizedBox(
+                          //                                     height: 20,
+                          //                                   ),
+                          //                                   Container(
+                          //                                     decoration: BoxDecoration(
+                          //                                       color: const Color.fromARGB(
+                          //                                           255, 255, 255, 255),
+                          //                                       borderRadius:
+                          //                                           BorderRadius.circular(10),
+                          //                                     ),
+                          //                                     child: TextFormField(
+                          //                                       controller: emailConfirm,
+                          //                                       obscureText: false,
+                          //                                       decoration: InputDecoration(
+                          //                                         contentPadding:
+                          //                                             EdgeInsets.only(left: 20),
+                          //                                         hintText: 'Email',
+                          //                                         hintStyle: TextStyle(
+                          //                                           color: Colors.grey,
+                          //                                         ),
+                          //                                         border: OutlineInputBorder(
+                          //                                           borderRadius:
+                          //                                               BorderRadius.circular(10),
+                          //                                         ),
+                          //                                       ),
+                          //                                     ),
+                          //                                   ),
+                          //                                 ],
+                          //                               ),
+                          //                             ),
+                          //                             actions: [
+                          //                               ElevatedButton(
+                          //                                 onPressed: () {
+                          //                                   // Reset the password by searching the email and changing the password in the database
+                          //                                   String email = emailConfirm.text;
+                          // if(email == RegisterDbhelper.fetchRegisterByEmail(email)  )
+                          // {
+                          //   //create a dialog box to enter new password
+                          //   showDialog(
+                          //     context: context,
+                          //     builder: (BuildContext context) {
+                          //       return AlertDialog(
+                          //         title: Text('Reset Password'),
+                          //         content: Container(
+                          //           height: 200,
+                          //           child: Column(
+                          //             children: [
+                          //               Text('Enter your new password'),
+                          //               SizedBox(height: 20),
+                          //               Container(
+                          //                 decoration: BoxDecoration(
+                          //                   color: const Color.fromARGB(255, 255, 255, 255),
+                          //                   borderRadius: BorderRadius.circular(10),
+                          //                 ),
+                          //                 child: TextFormField(
+                          //                   obscureText: true,
+                          //                   decoration: InputDecoration(
+                          //                     contentPadding: EdgeInsets.only(left: 20),
+                          //                     hintText: 'Password',
+                          //                     hintStyle: TextStyle(
+                          //                       color: Colors.grey,
+                          //                     ),
+                          //                     border: OutlineInputBorder(
+                          //                       borderRadius: BorderRadius.circular(10),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //               SizedBox(height: 20),
+                          //               Container(
+                          //                 decoration: BoxDecoration(
+                          //                   color: const Color.fromARGB(255, 255, 255, 255),
+                          //                   borderRadius: BorderRadius.circular(10),
+                          //                 ),
+                          //                 child: TextFormField(
+                          //                   obscureText: true,
+                          //                   decoration: InputDecoration(
+                          //                     contentPadding: EdgeInsets.only(left: 20),
+                          //                     hintText: 'Confirm Password',
+                          //                     hintStyle: TextStyle(
+                          //                       color: Colors.grey,
+                          //                     ),
+                          //                     border: OutlineInputBorder(
+                          //                       borderRadius: BorderRadius.circular(10),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //         actions: [
+                          //           ElevatedButton(
+                          //             onPressed: () {
+                          //               // Update the password in the database
+                          //               String password = _password.text;
+                          //               String confirmPassword = emailConfirm.text;
+                          //               if (password == confirmPassword) {
+                          //                 // Update the password/ in the database by comparing the email
+                          //                 RegisterDbhelper.updateRegisterPassword(email, password);
+                          //                 Navigator.pop(context);
+                          //               } else {
+                          //                 final snackBar = SnackBar(
+                          //                   elevation: 0,
+                          //                   backgroundColor: Colors.transparent,
+                          //                   behavior: SnackBarBehavior.floating,
+                          //                   content: AwesomeSnackbarContent(
+                          //                     title: 'Error',
+                          //                     message: 'Passwords do not match',
+                          //                     contentType: ContentType.warning,
+                          //                   ),
+                          //                 );
+                          //                 ScaffoldMessenger.of(context)
+                          //                   ..hideCurrentSnackBar()
+                          //                   ..showSnackBar(snackBar);
+                          //               }
+                          //             },
+                          //             child: Text('Reset Password'),
+                          //             style: ElevatedButton.styleFrom(
+                          //               primary: Color.fromRGBO(0, 158, 148, 1),
+                          //               minimumSize: Size(MediaQuery.of(context).size.width, 50),
+                          //               shape: RoundedRectangleBorder(
+                          //                 borderRadius: BorderRadius.circular(10),
+                          //               ),
+                          //             ),
+                          //           )
+                          //         ],
+                          //       );
+                          //     },
+                          //   );
+                          // } else {
+                          //   final snackBar = SnackBar(
+                          //     elevation: 0,
+                          //     backgroundColor: Colors.transparent,
+                          //     behavior: SnackBarBehavior.floating,
+                          //     content: AwesomeSnackbarContent(
+                          //       title: 'Error',
+                          //       message: 'Email not found',
+                          //       contentType: ContentType.warning,
+                          //     ),
+                          //   );
+                          //   ScaffoldMessenger.of(context)
+                          //     ..hideCurrentSnackBar()
+                          //     ..showSnackBar(snackBar);
+                          // }
+
+                          //                                 },
+                          //                                 child: Text('Reset Password'),
+                          //                                 style: ElevatedButton.styleFrom(
+                          //                                     primary:
+                          //                                         Color.fromRGBO(0, 158, 148, 1),
+                          //                                     minimumSize: Size(
+                          //                                         MediaQuery.of(context).size.width,
+                          //                                         50),
+                          //                                     shape: RoundedRectangleBorder(
+                          //                                       borderRadius:
+                          //                                           BorderRadius.circular(10),
+                          //                                     )),
+                          //                               )
+                          //                             ],
+                          //                           );
+                          //                         });
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
@@ -333,83 +463,87 @@ class _LoginState extends State<Login> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
-               child:   ElevatedButton(
-  onPressed: () async {
-    String email = _email.text;
-    String password = _password.text;
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            String email = _email.text;
+                            String password = _password.text;
 
-    if (email.isEmpty || password.isEmpty) {
-      final snackBar = SnackBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        behavior: SnackBarBehavior.floating,
-        content: AwesomeSnackbarContent(
-          title: 'Error',
-          message: 'Please fill all fields',
-          contentType: ContentType.warning,
-        ),
-      );
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(snackBar);
-    } else {
-      // Check the database for the user
-      Map<String, dynamic> user = await RegisterDbhelper.fetchRegisterByEmailAndPassword(email, password);
-      if (user.isNotEmpty) {
-        final snackBar = SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          behavior: SnackBarBehavior.floating,
-          content: AwesomeSnackbarContent(
-            title: 'Success',
-            message: 'Login successful',
-            contentType: ContentType.success,
-          ),
-        );
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(snackBar);
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BottomNavBar(keys: user['key']), // Pass the key to HomePage
-            ),
-          );
-        });
-      } else {
-        final snackBar = SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          behavior: SnackBarBehavior.floating,
-          content: AwesomeSnackbarContent(
-            title: 'Error',
-            message: 'Invalid email or password',
-            contentType: ContentType.failure,
-          ),
-        );
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(snackBar);
-      }
-    }
-  },
-  child: Text(
-    'Login',
-    style: TextStyle(
-      color: Color.fromARGB(255, 255, 255, 255),
-      fontSize: 18,
-    ),
-  ),
-  style: ElevatedButton.styleFrom(
-    primary: Color.fromRGBO(0, 158, 148, 1),
-    minimumSize: Size(MediaQuery.of(context).size.width, 50),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-  ),
-),
-
+                            if (email.isEmpty || password.isEmpty) {
+                              final snackBar = SnackBar(
+                                elevation: 0,
+                                backgroundColor: Colors.transparent,
+                                behavior: SnackBarBehavior.floating,
+                                content: AwesomeSnackbarContent(
+                                  title: 'Error',
+                                  message: 'Please fill all fields',
+                                  contentType: ContentType.warning,
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar);
+                            } else {
+                              // Check the database for the user
+                              Map<String, dynamic> user = await RegisterDbhelper
+                                  .fetchRegisterByEmailAndPassword(
+                                      email, password);
+                              if (user.isNotEmpty) {
+                                final snackBar = SnackBar(
+                                  elevation: 0,
+                                  backgroundColor: Colors.transparent,
+                                  behavior: SnackBarBehavior.floating,
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Success',
+                                    message: 'Login successful',
+                                    contentType: ContentType.success,
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(snackBar);
+                                Future.delayed(Duration(seconds: 1), () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BottomNavBar(
+                                          keys: user[
+                                              'key']), // Pass the key to HomePage
+                                    ),
+                                  );
+                                });
+                              } else {
+                                final snackBar = SnackBar(
+                                  elevation: 0,
+                                  backgroundColor: Colors.transparent,
+                                  behavior: SnackBarBehavior.floating,
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Error',
+                                    message: 'Invalid email or password',
+                                    contentType: ContentType.failure,
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(snackBar);
+                              }
+                            }
+                          },
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 18,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromRGBO(0, 158, 148, 1),
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

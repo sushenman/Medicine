@@ -88,6 +88,25 @@ registerUser() {
       ..showSnackBar(snackBar);
     return;
   } 
+else if (!RegExp(r'^[0-9]+$').hasMatch(_phonenumber.text)) {
+  final snackBar = SnackBar(
+    elevation: 0,
+    backgroundColor: Colors.transparent,
+    behavior: SnackBarBehavior.floating,
+    content: AwesomeSnackbarContent(
+      title: 'Error',
+      message: 'Phone number must contain only digits',
+      contentType: ContentType.warning,
+    ),
+  );
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
+  return;
+}
+
+
+  
   else if (_phonenumber.text.length != 10) {
     final snackBar = SnackBar(
       elevation: 0,

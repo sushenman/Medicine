@@ -70,13 +70,41 @@ class _Update_ProfileState extends State<Update_Profile> {
         ),
       );
       return false;
-    } else if (phoneController.text.length != 10) {
+    }
+    else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text)) {
+   ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Phone number must be digits only'),
+        ),
+      );
+  return false;
+}
+
+ 
+    else if (phoneController.text.length != 10) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Phone number must be 10 digits'),
         ),
       );
       return false;
+    }
+    //check if the email is already registered 
+    else if( emailController.text != email){
+      RegisterDbhelper.fetchRegisterByEmail(emailController.text).then((value) {
+        if (value != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Email already registered'),
+            ),
+          );
+          return false;
+        }
+        else
+        {
+          
+        }
+      });
     }
     return true;
   }

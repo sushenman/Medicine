@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     fetchMedicines(selectedDate);
     super.initState();
   }
-  
+
   Future<void> fetchMedicines(DateTime selectedDate) async {
     List<Medicine> allMedicines = await DatabaseHelper.fetchMedicines();
     setState(() {
@@ -67,9 +67,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=> Login() ) );
-          }, icon: Icon(Icons.logout, color: Colors.white,) )
+          IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Login()));
+              },
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ))
         ],
         title: const Text(
           'Medi-Alert',
@@ -109,20 +117,20 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical:    0),
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(255, 0, 96, 8).withOpacity(0.8),
-                        spreadRadius: 3,
-                        blurRadius: 3,
-                        offset: const Offset(0, 3),
-                      )
-                    ] ,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 0, 96, 8).withOpacity(0.8),
+                          spreadRadius: 3,
+                          blurRadius: 3,
+                          offset: const Offset(0, 3),
+                        )
+                      ],
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(50),
                         bottomRight: Radius.circular(50),
@@ -139,9 +147,8 @@ class _HomePageState extends State<HomePage> {
                           DateFormat.yMMMEd().format(DateTime.now()),
                           style: TextStyle(
                               fontSize: 24,
-                                letterSpacing: 1.2,
+                              letterSpacing: 1.2,
                               fontFamily: 'Lato',
-
                               color: Colors.white),
                         ),
                         SizedBox(
@@ -179,9 +186,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-           SizedBox(
-            height: 20,
-           ),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               margin: const EdgeInsets.only(top: 20, left: 10),
               child: DatePicker(
@@ -191,7 +198,6 @@ class _HomePageState extends State<HomePage> {
                 initialSelectedDate: DateTime.now(),
                 selectionColor: Color.fromRGBO(62, 177, 110, 1),
                 selectedTextColor: Color.fromARGB(255, 255, 255, 255),
-                
                 dateTextStyle: TextStyle(
                   fontSize: 20,
                   fontFamily: 'Lato',
@@ -200,13 +206,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 dayTextStyle: TextStyle(
                   fontSize: 16,
-                                    fontFamily: 'Lato',
+                  fontFamily: 'Lato',
                   fontWeight: FontWeight.w600,
                   color: Color.fromARGB(255, 0, 0, 0),
                 ),
                 monthTextStyle: TextStyle(
                   fontSize: 14,
-                                    fontFamily: 'Lato',
+                  fontFamily: 'Lato',
                   fontWeight: FontWeight.w600,
                   color: Color.fromARGB(255, 0, 0, 0),
                 ),
@@ -240,17 +246,17 @@ class _HomePageState extends State<HomePage> {
                           MaterialPageRoute(
                             builder: (BuildContext context) => Remain_Dose(
                               id: medicine.id!,
-                                keys: widget.keys,
-                                name: medicine.name,
-                                dose: medicine.dose,
-                                totaldose: medicine.TotalDose,
-                                type: medicine.type,
-                                startDate: medicine.startDate,
-                                endDate: medicine.endDate,
-                                time: medicine.time,
-                                remind: medicine.Remind,
-                                repeat: medicine.Repeat ,
-                                ),
+                              keys: widget.keys,
+                              name: medicine.name,
+                              dose: medicine.dose,
+                              totaldose: medicine.TotalDose,
+                              type: medicine.type,
+                              startDate: medicine.startDate,
+                              endDate: medicine.endDate,
+                              time: medicine.time,
+                              remind: medicine.Remind,
+                              repeat: medicine.Repeat,
+                            ),
                           )),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -264,23 +270,21 @@ class _HomePageState extends State<HomePage> {
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    
                                     color: Color.fromRGBO(62, 177, 110, 1),
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Color.fromARGB(255, 170, 170, 170).withOpacity(0.8),
+                                        color:
+                                            Color.fromARGB(255, 170, 170, 170)
+                                                .withOpacity(0.8),
                                         spreadRadius: 3,
                                         blurRadius: 6,
                                         offset: const Offset(0, 3),
                                       ),
                                     ],
                                   ),
-                                  child: Row(
+                                  child: Column(
                                     children: [
-                                      // SizedBox(
-                                      //   width: 10,
-                                      // ),
                                       Container(
                                         padding: EdgeInsets.only(
                                             left: 10,
@@ -295,12 +299,14 @@ class _HomePageState extends State<HomePage> {
                                               medicine.name,
                                               style: TextStyle(
                                                   fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Times New Roman',
+                                                  fontWeight:
+                                                      FontWeight.bold,
+                                                  fontFamily:
+                                                      'Times New Roman',
                                                   color: Colors.white),
                                             ),
                                             SizedBox(
-                                              height: 10,
+                                              height: 20,
                                             ),
                                             Text(
                                               'Dose: ${medicine.dose}',
@@ -309,19 +315,42 @@ class _HomePageState extends State<HomePage> {
                                                   fontFamily: 'Lato',
                                                   color: Colors.white),
                                             ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              'Time: ${DateFormat.jm().format(medicine.time)}',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontFamily: 'Lato',
-                                                  color: Colors.white),
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Time: ${DateFormat.jm().format(medicine.time)}',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily: 'Lato',
+                                                      color: Colors.white),
+                                                ),
+                                                     Container(
+                                                                              child: IconButton(
+                                      onPressed: () {
+                                        // Call deleteMedicine method with the specific medicine object
+                                        setState(() {
+                                          DatabaseHelper.deleteMedicine(
+                                              medicine); // Pass the entire Medicine object
+                                          medicines.remove(
+                                              medicine); // Remove the medicine from the list
+                                        });
+                                      },
+                                      icon: Icon(Icons.delete,
+                                          color: Colors.white),
+                                                                              ),
+                                                                            )
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      )
+                                      ),
+                                 
                                     ],
                                   ),
                                 ),
@@ -333,7 +362,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-
               ),
             ),
             // Container(
@@ -365,7 +393,9 @@ class _HomePageState extends State<HomePage> {
             //         ));
             //       }),
             // )
-                          SizedBox(height: 20 ,)
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),

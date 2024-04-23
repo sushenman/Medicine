@@ -4,7 +4,9 @@ import '../Model/model.dart';
 import 'package:intl/intl.dart';
 
 class MedsHistory extends StatefulWidget {
-  const MedsHistory({Key? key});
+
+  String keys;
+  MedsHistory({required this.keys});
 
   @override
   State<MedsHistory> createState() => _MedsHistoryState();
@@ -16,14 +18,18 @@ class _MedsHistoryState extends State<MedsHistory> {
   @override
   void initState() {
     super.initState();
-    // Fetch medications with end date in the past
-    DatabaseHelper.getMedicationsEnded().then((medications) {
-      setState(() {
-        endedMedications = medications;
-      });
-    });
+    // Fetch medications with end date in the past with the user's key 
+    fetchEndedMedications(widget.keys);
+
   }
 
+fetchEndedMedications(String keys){
+  DatabaseHelper.fetchMedicines().then((medications) {
+    setState(() {
+      endedMedications = medications.where((medication) => medication.keys == keys && medication.endDate.isBefore(DateTime.now())).toList();
+    });
+  });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
