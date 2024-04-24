@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine_reminder/Model/model.dart';
@@ -71,7 +72,40 @@ void addMedicine() {
     );
     return;
   }
-
+  else if (!RegExp(r'^[0-9]+$').hasMatch(totaldose.text)) {
+  final snackBar = SnackBar(
+    elevation: 0,
+    backgroundColor: Colors.transparent,
+    behavior: SnackBarBehavior.floating,
+    content: AwesomeSnackbarContent(
+      title: 'Error',
+      message: 'Total dose must contain only digits',
+      contentType: ContentType.warning,
+    ),
+  );
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
+  return;
+}
+  else if (!RegExp(r'^[0-9]+$').hasMatch(dose.text)) {
+  final snackBar = SnackBar(
+    elevation: 0,
+    backgroundColor: Colors.transparent,
+    behavior: SnackBarBehavior.floating,
+    content: AwesomeSnackbarContent(
+      title: 'Error',
+      message: 'Dose must contain only digits',
+      contentType: ContentType.warning,
+    ),
+  );
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
+  return;
+}
+else
+{
   Medicine medicine = Medicine(
     name: name.text,
     dose: int.parse(dose.text),
@@ -134,6 +168,8 @@ Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       ),
     );
   });
+}
+
 }
 
   @override

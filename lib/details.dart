@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:medicine_reminder/widgets/textfield.dart';
 import 'package:water_bottle/water_bottle.dart';
@@ -237,7 +238,23 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                           content: Text('Please enter a total dose'),
                                         ),
                                       );
-                                    }
+                                    } 
+                                     else if (!RegExp(r'^[0-9]+$').hasMatch(totalDoseController.text)) {
+  final snackBar = SnackBar(
+    elevation: 0,
+    backgroundColor: Colors.transparent,
+    behavior: SnackBarBehavior.floating,
+    content: AwesomeSnackbarContent(
+      title: 'Error',
+      message: 'Dose must contain only digits',
+      contentType: ContentType.warning,
+    ),
+  );
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
+  return;
+}
                                     else
                                     {
                                       DatabaseHelper.updateMedicine(Medicine(
