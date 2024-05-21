@@ -39,18 +39,10 @@ class RegisterDbhelper {
 
   static Future<int> insertRegister(RegisterModel register) async {
     final db = await database;
-    print(db);
     return await db.insert(tableName, register.toMap());
   }
 
-  //fetch only email and password
-  static Future<List<RegisterModel>> fetchRegister() async {
-    final db = await database;
-    final List<Map<String, dynamic>> register = await db.query(tableName);
-    return List.generate(register.length, (index) {
-      return RegisterModel.fromMap(register[index]);
-    });
-  }
+ 
 
   static Future<RegisterModel?> fetchRegisterByEmail(String email) async {
     final db = await database;

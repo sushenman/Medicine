@@ -10,15 +10,12 @@ import 'package:provider/provider.dart';
 // import 'package:medicine_reminder/noti.dart';
 // import 'package:medicine_reminder/login.dart';33
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize the local notification
   await LocalNotification.initializeNotification();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => DatabaseHelper(), // Create an instance of your provider
-      child: MyApp(),
-    ),
+    MyApp(),
   );
 }
 

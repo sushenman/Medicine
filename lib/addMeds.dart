@@ -23,12 +23,13 @@ DateTime getTime = DateTime.now();
 
 DateTime endDate = DateTime.now();
 
-List<int> RemindList = [5, 10, 15, 20];
+List<int> RemindList = [0,5, 10, 15, 20];
 int selectedReminder = RemindList[0];
 List<String> RepeatList = ['Daily', 'Weekly'];
 String selectedRepeat = RepeatList[0];
 List<String> medsType = ['Tablet', 'Syrup', 'Capsule', 'Injection', 'Drops'];
 String selectedType = medsType[0];
+
 Map<String, List<String>> doseTypeMap = {
   'Tablet': [
     'Tabs',
@@ -41,6 +42,7 @@ Map<String, List<String>> doseTypeMap = {
 String selectedDoseType = doseTypeMap[selectedType]![0];
 
 class _AddMedsPageState extends State<AddMedsPage> {
+
   late TextEditingController name;
   late TextEditingController dose;
   late TextEditingController type;
@@ -64,7 +66,7 @@ class _AddMedsPageState extends State<AddMedsPage> {
   }
 
 void addMedicine() {
-  if (name.text.isEmpty || dose.text.isEmpty) {
+  if (name.text.isEmpty || dose.text.isEmpty || totaldose.text.isEmpty )   {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Please fill all the fields'),

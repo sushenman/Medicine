@@ -231,32 +231,32 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                 label: 'Update ',
                                 onTap: () {
                                   setState(() {
-                                    if (totalDoseController.text.isEmpty)
-                                    {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    if (totalDoseController.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         const SnackBar(
-                                          content: Text('Please enter a total dose'),
+                                          content:
+                                              Text('Please enter a total dose'),
                                         ),
                                       );
-                                    } 
-                                     else if (!RegExp(r'^[0-9]+$').hasMatch(totalDoseController.text)) {
-  final snackBar = SnackBar(
-    elevation: 0,
-    backgroundColor: Colors.transparent,
-    behavior: SnackBarBehavior.floating,
-    content: AwesomeSnackbarContent(
-      title: 'Error',
-      message: 'Dose must contain only digits',
-      contentType: ContentType.warning,
-    ),
-  );
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(snackBar);
-  return;
-}
-                                    else
-                                    {
+                                    } else if (!RegExp(r'^[0-9]+$')
+                                        .hasMatch(totalDoseController.text)) {
+                                      final snackBar = SnackBar(
+                                        elevation: 0,
+                                        backgroundColor: Colors.transparent,
+                                        behavior: SnackBarBehavior.floating,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Error',
+                                          message:
+                                              'Dose must contain only digits',
+                                          contentType: ContentType.warning,
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentSnackBar()
+                                        ..showSnackBar(snackBar);
+                                      return;
+                                    } else {
                                       DatabaseHelper.updateMedicine(Medicine(
                                         id: widget.id,
                                         keys: widget.keys,
@@ -271,24 +271,24 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                         Remind: widget.remind,
                                         Repeat: widget.repeat,
                                       ));
-                                    Navigator.pushReplacement(context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                      return Remain_Dose(
-                                        id: widget.id,
-                                        keys: widget.keys,
-                                        name: widget.name,
-                                        dose: widget.dose,
-                                        totaldose:
-                                            int.parse(totalDoseController.text),
-                                        type: widget.type,
-                                        startDate: widget.startDate,
-                                        endDate: widget.endDate,
-                                        time: widget.time,
-                                        remind: widget.remind,
-                                        repeat: widget.repeat,
-                                      );
-                                    }));
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return Remain_Dose(
+                                          id: widget.id,
+                                          keys: widget.keys,
+                                          name: widget.name,
+                                          dose: widget.dose,
+                                          totaldose: int.parse(
+                                              totalDoseController.text),
+                                          type: widget.type,
+                                          startDate: widget.startDate,
+                                          endDate: widget.endDate,
+                                          time: widget.time,
+                                          remind: widget.remind,
+                                          repeat: widget.repeat,
+                                        );
+                                      }));
                                     }
 
                                     isVisibleTotalDose = !isVisibleTotalDose;

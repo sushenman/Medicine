@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:medicine_reminder/Model/registermodel.dart';
 import 'package:medicine_reminder/Register/forgotpassword.dart';
 import 'package:medicine_reminder/Register/register.dart';
 import 'package:medicine_reminder/bottomNav.dart';
-import 'package:medicine_reminder/homeppage.dart';
+
 
 import '../dbHelper/registerdbhelper.dart';
 
@@ -23,28 +22,6 @@ TextEditingController emailConfirm = TextEditingController();
 bool obscureText = true;
 
 Icon icon = Icon(Icons.remove_red_eye);
-
-class CustomClipPath extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-//create a path from bottom
-    path.lineTo(0, size.height * 0.8);
-    path.quadraticBezierTo(size.width * 0.2, size.height * 1.1,
-        size.width * 0.5, size.height * 0.8);
-    path.quadraticBezierTo(
-        size.width * 0.8, size.height * 0.4, size.width, size.height * 0.9);
-    path.lineTo(size.width, 0);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    // TODO: implement shouldReclip
-    // throw UnimplementedError();
-    return false;
-  }
-}
 
 class _LoginState extends State<Login> {
   @override
@@ -236,183 +213,7 @@ class _LoginState extends State<Login> {
                               builder: (BuildContext context) {
                             return ForgotPassword();
                           }));
-                          //                     showDialog(
-                          //                         context: context,
-                          //                         builder: (BuildContext context) {
-                          //                           return AlertDialog(
-                          //                             title: Text(
-                          //                               'Forgot Password',
-                          //                               style: TextStyle(
-                          //                                   fontSize: 16, letterSpacing: 1.2),
-                          //                             ),
-                          //                             content: Container(
-                          //                               height: 120,
-                          //                               child: Column(
-                          //                                 children: [
-                          //                                   Text(
-                          //                                       'Enter your email address to reset your password'),
-                          //                                   SizedBox(
-                          //                                     height: 20,
-                          //                                   ),
-                          //                                   Container(
-                          //                                     decoration: BoxDecoration(
-                          //                                       color: const Color.fromARGB(
-                          //                                           255, 255, 255, 255),
-                          //                                       borderRadius:
-                          //                                           BorderRadius.circular(10),
-                          //                                     ),
-                          //                                     child: TextFormField(
-                          //                                       controller: emailConfirm,
-                          //                                       obscureText: false,
-                          //                                       decoration: InputDecoration(
-                          //                                         contentPadding:
-                          //                                             EdgeInsets.only(left: 20),
-                          //                                         hintText: 'Email',
-                          //                                         hintStyle: TextStyle(
-                          //                                           color: Colors.grey,
-                          //                                         ),
-                          //                                         border: OutlineInputBorder(
-                          //                                           borderRadius:
-                          //                                               BorderRadius.circular(10),
-                          //                                         ),
-                          //                                       ),
-                          //                                     ),
-                          //                                   ),
-                          //                                 ],
-                          //                               ),
-                          //                             ),
-                          //                             actions: [
-                          //                               ElevatedButton(
-                          //                                 onPressed: () {
-                          //                                   // Reset the password by searching the email and changing the password in the database
-                          //                                   String email = emailConfirm.text;
-                          // if(email == RegisterDbhelper.fetchRegisterByEmail(email)  )
-                          // {
-                          //   //create a dialog box to enter new password
-                          //   showDialog(
-                          //     context: context,
-                          //     builder: (BuildContext context) {
-                          //       return AlertDialog(
-                          //         title: Text('Reset Password'),
-                          //         content: Container(
-                          //           height: 200,
-                          //           child: Column(
-                          //             children: [
-                          //               Text('Enter your new password'),
-                          //               SizedBox(height: 20),
-                          //               Container(
-                          //                 decoration: BoxDecoration(
-                          //                   color: const Color.fromARGB(255, 255, 255, 255),
-                          //                   borderRadius: BorderRadius.circular(10),
-                          //                 ),
-                          //                 child: TextFormField(
-                          //                   obscureText: true,
-                          //                   decoration: InputDecoration(
-                          //                     contentPadding: EdgeInsets.only(left: 20),
-                          //                     hintText: 'Password',
-                          //                     hintStyle: TextStyle(
-                          //                       color: Colors.grey,
-                          //                     ),
-                          //                     border: OutlineInputBorder(
-                          //                       borderRadius: BorderRadius.circular(10),
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //               ),
-                          //               SizedBox(height: 20),
-                          //               Container(
-                          //                 decoration: BoxDecoration(
-                          //                   color: const Color.fromARGB(255, 255, 255, 255),
-                          //                   borderRadius: BorderRadius.circular(10),
-                          //                 ),
-                          //                 child: TextFormField(
-                          //                   obscureText: true,
-                          //                   decoration: InputDecoration(
-                          //                     contentPadding: EdgeInsets.only(left: 20),
-                          //                     hintText: 'Confirm Password',
-                          //                     hintStyle: TextStyle(
-                          //                       color: Colors.grey,
-                          //                     ),
-                          //                     border: OutlineInputBorder(
-                          //                       borderRadius: BorderRadius.circular(10),
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //         actions: [
-                          //           ElevatedButton(
-                          //             onPressed: () {
-                          //               // Update the password in the database
-                          //               String password = _password.text;
-                          //               String confirmPassword = emailConfirm.text;
-                          //               if (password == confirmPassword) {
-                          //                 // Update the password/ in the database by comparing the email
-                          //                 RegisterDbhelper.updateRegisterPassword(email, password);
-                          //                 Navigator.pop(context);
-                          //               } else {
-                          //                 final snackBar = SnackBar(
-                          //                   elevation: 0,
-                          //                   backgroundColor: Colors.transparent,
-                          //                   behavior: SnackBarBehavior.floating,
-                          //                   content: AwesomeSnackbarContent(
-                          //                     title: 'Error',
-                          //                     message: 'Passwords do not match',
-                          //                     contentType: ContentType.warning,
-                          //                   ),
-                          //                 );
-                          //                 ScaffoldMessenger.of(context)
-                          //                   ..hideCurrentSnackBar()
-                          //                   ..showSnackBar(snackBar);
-                          //               }
-                          //             },
-                          //             child: Text('Reset Password'),
-                          //             style: ElevatedButton.styleFrom(
-                          //               primary: Color.fromRGBO(0, 158, 148, 1),
-                          //               minimumSize: Size(MediaQuery.of(context).size.width, 50),
-                          //               shape: RoundedRectangleBorder(
-                          //                 borderRadius: BorderRadius.circular(10),
-                          //               ),
-                          //             ),
-                          //           )
-                          //         ],
-                          //       );
-                          //     },
-                          //   );
-                          // } else {
-                          //   final snackBar = SnackBar(
-                          //     elevation: 0,
-                          //     backgroundColor: Colors.transparent,
-                          //     behavior: SnackBarBehavior.floating,
-                          //     content: AwesomeSnackbarContent(
-                          //       title: 'Error',
-                          //       message: 'Email not found',
-                          //       contentType: ContentType.warning,
-                          //     ),
-                          //   );
-                          //   ScaffoldMessenger.of(context)
-                          //     ..hideCurrentSnackBar()
-                          //     ..showSnackBar(snackBar);
-                          // }
-
-                          //                                 },
-                          //                                 child: Text('Reset Password'),
-                          //                                 style: ElevatedButton.styleFrom(
-                          //                                     primary:
-                          //                                         Color.fromRGBO(0, 158, 148, 1),
-                          //                                     minimumSize: Size(
-                          //                                         MediaQuery.of(context).size.width,
-                          //                                         50),
-                          //                                     shape: RoundedRectangleBorder(
-                          //                                       borderRadius:
-                          //                                           BorderRadius.circular(10),
-                          //                                     )),
-                          //                               )
-                          //                             ],
-                          //                           );
-                          //                         });
+                        
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
@@ -505,9 +306,8 @@ class _LoginState extends State<Login> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => BottomNavBar(
-                                          keys: user[
-                                              'key']), // Pass the key to HomePage
+                                      builder: (context) => 
+                                      BottomNavBar(keys: user['key']), // Pass the key to HomePage
                                     ),
                                   );
                                 });

@@ -3,10 +3,13 @@ import 'package:medicine_reminder/Model/model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseHelper  extends ChangeNotifier{
+class DatabaseHelper  {
+
   static Database? _database;
+  
   static const String dbName = 'medicine.db';
   static const String tableName = 'medicines';
+
 
   static Future<Database> get database async {
     if (_database != null) return _database!;
@@ -42,8 +45,6 @@ class DatabaseHelper  extends ChangeNotifier{
 
   static Future<int> insertMedicine(Medicine medicine) async {
     final db = await database;
-//display the database data
-    print('db ${medicine.time }');
     return await db.insert(tableName, medicine.toMap());
   }
 

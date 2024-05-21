@@ -1,4 +1,5 @@
 class RegisterModel {
+
   int? id;
   final String firstname;
   final String lastname;
@@ -10,7 +11,8 @@ class RegisterModel {
   final String key;
 
   RegisterModel(
-      {this.id,
+      {
+      this.id,
       required this.firstname,
       required this.lastname,
       required this.ProfileImage,

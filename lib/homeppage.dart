@@ -13,6 +13,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class HomePage extends StatefulWidget {
+  
   final String keys;
   HomePage({required this.keys});
 
@@ -48,17 +49,7 @@ class _HomePageState extends State<HomePage> {
                 (medicine.endDate.isAfter(selectedDate) ||
                     medicine.endDate.isAtSameMomentAs(selectedDate)))
             .toList();
-      } else {
-        medicines = medicines;
       }
-
-      // medicines = allMedicines
-      //     .where((medicine) =>
-      //         (medicine.startDate.isBefore(selectedDate) ||
-      //             medicine.startDate.isAtSameMomentAs(selectedDate)) &&
-      //         (medicine.endDate.isAfter(selectedDate) ||
-      //             medicine.endDate.isAtSameMomentAs(selectedDate)))
-      //     .toList();
     });
   }
 
@@ -165,24 +156,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  // Buttons(
-                  //   label: "Add Medicine",
-                  //   onTap: () {
-                  //     print('he');
-                  //     // Local_Notification.showScheduledNotification(
-                  //     //     scheduledNotificationDateTime:
-                  //     //         DateTime.now().add(Duration(seconds: 1)),
-                  //     //     id: 0,
-                  //     //     title: 'repeating title',
-                  //     //     body: 'repeating body',
-                  //     //     payload: 'repeating payload');
-
-                  //     Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => AddMedsPage(keys: widget.keys ,)));
-                  //   },
-                  // )
                 ],
               ),
             ),
@@ -217,7 +190,6 @@ class _HomePageState extends State<HomePage> {
                   color: Color.fromARGB(255, 0, 0, 0),
                 ),
                 onDateChange: (date) {
-                  print(medicines.length);
                   setState(() {
                     selectedDate = date;
                   });
@@ -232,14 +204,13 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    // color: Color.fromARGB(255, 241, 241, 241),
-
-                    ),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
                   itemCount: medicines.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Medicine medicine = medicines[index];
+                    Medicine medicine = medicines[index]; 
                     return GestureDetector(
                       onTap: () => Navigator.push(
                           context,
@@ -290,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                             left: 10,
                                             right: 20,
                                             top: 10,
-                                            bottom: 10),
+                                            bottom: 0),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -299,10 +270,8 @@ class _HomePageState extends State<HomePage> {
                                               medicine.name,
                                               style: TextStyle(
                                                   fontSize: 20,
-                                                  fontWeight:
-                                                      FontWeight.bold,
-                                                  fontFamily:
-                                                      'Times New Roman',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Times New Roman',
                                                   color: Colors.white),
                                             ),
                                             SizedBox(
@@ -330,27 +299,27 @@ class _HomePageState extends State<HomePage> {
                                                       fontFamily: 'Lato',
                                                       color: Colors.white),
                                                 ),
-                                                     Container(
-                                                                              child: IconButton(
-                                      onPressed: () {
-                                        // Call deleteMedicine method with the specific medicine object
-                                        setState(() {
-                                          DatabaseHelper.deleteMedicine(
-                                              medicine); // Pass the entire Medicine object
-                                          medicines.remove(
-                                              medicine); // Remove the medicine from the list
-                                        });
-                                      },
-                                      icon: Icon(Icons.delete,
-                                          color: Colors.white),
-                                                                              ),
-                                                                            )
+                                                Container(
+                                                  child: IconButton(
+                                                    onPressed: () {
+                                                      // Call deleteMedicine method with the specific medicine object
+                                                      setState(() {
+                                                        DatabaseHelper
+                                                            .deleteMedicine(
+                                                                medicine); // Pass the entire Medicine object
+                                                        medicines.remove(
+                                                            medicine); // Remove the medicine from the list
+                                                      });
+                                                    },
+                                                    icon: Icon(Icons.delete,
+                                                        color: Colors.white),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ],
                                         ),
                                       ),
-                                 
                                     ],
                                   ),
                                 ),
@@ -360,39 +329,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     );
+                  
                   },
                 ),
               ),
             ),
-            // Container(
-            //   padding: EdgeInsets.all(10),
-            //   height: MediaQuery.of(context).size.height,
-            //   child: GridView.builder(
-            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //           crossAxisCount: 2,
-            //           crossAxisSpacing: 10,
-            //           mainAxisSpacing: 10,
-            //           childAspectRatio: 1.5),
-            //       itemCount: medicines.length,
-            //       itemBuilder: (BuildContext context, index) {
-            //         return Container(
-            //             padding: EdgeInsets.all(16),
-            //             decoration: BoxDecoration(
-            //              color: Color.fromRGBO(62,177,110, 1),
-            //              borderRadius: BorderRadius.circular(14) ,
-            //             ),
-            //             child: Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: [
-            //             Text(' ${medicines[index].name}',),
-            //             Text(' ${medicines[index].dose}'),
-            //             Text(
-            //                 ' ${DateFormat.jm().format(medicines[index].time)}'),
-            //             Text(' ${medicines[index].type}'),
-            //           ],
-            //         ));
-            //       }),
-            // )
             SizedBox(
               height: 20,
             )

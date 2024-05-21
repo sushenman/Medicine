@@ -1,4 +1,5 @@
 class Medicine {
+  
   int? id;
   String name;
   int dose;
@@ -12,7 +13,8 @@ class Medicine {
   String keys;
 
   Medicine(
-      {this.id,
+      {
+      this.id,
       required this.name,
       required this.dose,
       required this.TotalDose,
@@ -22,7 +24,8 @@ class Medicine {
       required this.time,
       required this.Remind,
       required this.Repeat,
-      required this.keys});
+      required this.keys
+      });
 
   Map<String, dynamic> toMap() {
     return {
