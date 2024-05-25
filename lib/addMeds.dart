@@ -48,6 +48,7 @@ class _AddMedsPageState extends State<AddMedsPage> {
   late TextEditingController type;
   late TextEditingController totaldose;
 
+
   @override
   void initState() {
     super.initState();

@@ -52,39 +52,11 @@ class DatabaseHelper  {
     final db = await database;
     final List<Map<String, dynamic>> medicines = await db.query(tableName);
     return List.generate(medicines.length, (index) {
+      print('DB Medicine List ${Medicine.fromMap(medicines[index])} ');
       return Medicine.fromMap(medicines[index]);
     });
   }
-  static Future<List<Medicine>> getMedicationsEnded() async {
-    final db = await database;
-    
-    // Get the current date
-    final now = DateTime.now();
-    
-    // Query the database to retrieve medications where the end date has passed
-    final List<Map<String, dynamic>> maps = await db.query(
-      tableName,
-      where: 'endDate < ?',
-      whereArgs: [now.toIso8601String()],
-    );
 
-    // Convert the List<Map<String, dynamic>> to List<Medicine>
-    return List.generate(maps.length, (i) {
-      return Medicine(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-        dose: maps[i]['dose'],
-        type: maps[i]['type'],
-        TotalDose: maps[i]['TotalDose'],
-        startDate: DateTime.parse(maps[i]['startDate']),
-        endDate: DateTime.parse(maps[i]['endDate']),
-        time: DateTime.parse(maps[i]['time']),
-        Remind: maps[i]['Remind'],
-        Repeat: maps[i]['Repeat'],
-        keys: maps[i]['keys'],
-      );
-    });
-  }
 //update the medicine 
 static Future<int> updateMedicine(Medicine medicine) async {
   final db = await database;

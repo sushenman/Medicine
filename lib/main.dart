@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicine_reminder/Register/login.dart';
-
-import 'package:medicine_reminder/addMeds.dart';
-import 'package:medicine_reminder/bottomNav.dart';
-import 'package:medicine_reminder/dbHelper/dbhelper.dart';
-import 'package:medicine_reminder/homeppage.dart';
 import 'package:medicine_reminder/local_notification.dart';
-import 'package:provider/provider.dart';
-// import 'package:medicine_reminder/noti.dart';
-// import 'package:medicine_reminder/login.dart';33
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

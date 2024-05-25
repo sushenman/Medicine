@@ -163,12 +163,6 @@ else if (!RegExp(r'^[0-9]+$').hasMatch(_phonenumber.text)) {
 
   
   else {
-    
-
-   
-
-
-
        RegisterModel register = RegisterModel(
       firstname: _firstname.text,
       lastname: _lastname.text,
@@ -218,18 +212,7 @@ else if (!RegExp(r'^[0-9]+$').hasMatch(_phonenumber.text)) {
         });
       }
     });
-    // RegisterDbhelper.insertRegister(register).then((value) => {
-    //   print(value),
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text('Registration successful'),
-    //     ),
-    //   ),
-    //   Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),
-    // });
-    
 
-    // Proceed with registration
 
   }
 }

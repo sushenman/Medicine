@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:medicine_reminder/Model/model.dart';
-import 'package:medicine_reminder/dbHelper/dbhelper.dart';
+
+
 import 'package:medicine_reminder/main.dart';
 import 'package:medicine_reminder/medstaken.dart';
 
@@ -43,6 +41,7 @@ class LocalNotification {
         await AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
+
     await AwesomeNotifications().setListeners(
       onActionReceivedMethod: onActionReceivedMethod,
       onNotificationCreatedMethod: onNotificationCreatedMethod,
@@ -91,11 +90,9 @@ class LocalNotification {
     final String? bigPicture,
     final List<NotificationActionButton>? actionButtons,
     final DateTime? time,
-  }) async {
+}) async {
     if (time != null) {
-      // Fetch medicines at the time of the notification
-      await fetchMedicines();
-
+   
       // Create the notification
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
@@ -113,36 +110,6 @@ class LocalNotification {
         actionButtons: actionButtons,
         schedule: NotificationCalendar.fromDate(date: time),
       );
-    }
-  }
-
-  static Future<void> cancelNotification(int notificationId) async {
-    await AwesomeNotifications().cancel(notificationId);
-  }
-
-  static Future<void> fetchMedicines() async {
-    List<Medicine> allMedicines = await DatabaseHelper.fetchMedicines();
-    List<Medicine> medicines = [];
-    //fetch all medicines total dose
-    medicines = allMedicines.toList();
-    //now filter the medicines based on start date and end date
-    DateTime now = DateTime.now();
-    medicines = medicines
-        .where((medicine) =>
-            medicine.startDate.isBefore(now) &&
-            medicine.endDate.isAfter(now))
-        .toList();
-    //now filter the medicines based on time
-    TimeOfDay currentTime = TimeOfDay.now();
-    medicines = medicines
-        .where((medicine) =>
-            medicine.time.hour == currentTime.hour &&
-            medicine.time.minute == currentTime.minute)
-        .toList();
-    //now delete the total dose to dose and update the medicine
-    for (Medicine medicine in medicines) {
-      medicine.dose = medicine.TotalDose - medicine.dose;
-      await DatabaseHelper.updateMedicine(medicine);
     }
   }
 
