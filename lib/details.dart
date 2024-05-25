@@ -1,12 +1,10 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:medicine_reminder/widgets/textfield.dart';
-import 'package:water_bottle/water_bottle.dart';
+
 import 'package:medicine_reminder/Model/model.dart'; // Import your MedicineModel class
 import 'package:medicine_reminder/dbHelper/dbhelper.dart'; // Import your DatabaseHelper class
 import 'package:intl/intl.dart';
-
-// import 'widgets/button.dart';
 
 class Remain_Dose extends StatefulWidget {
   int id;
@@ -39,8 +37,6 @@ class Remain_Dose extends StatefulWidget {
 }
 
 class _Remain_DoseState extends State<Remain_Dose> {
-  final bottleRef = GlobalKey<SphericalBottleState>();
-
   bool isVisisble = false;
   bool isVisisble1 = true;
   bool isVisibletime = true;
@@ -181,7 +177,6 @@ class _Remain_DoseState extends State<Remain_Dose> {
                 ],
               ),
             ),
-
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -306,11 +301,6 @@ class _Remain_DoseState extends State<Remain_Dose> {
                 ],
               ),
             ),
-            // Container(
-            //   child: details(
-            //       title: 'Dose Remaining',
-            //       data: ' ${widget.totaldose - widget.dose}'),
-            // ),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -373,14 +363,16 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                             TimeOfDay? pickerTime =
                                                 await showTimePicker(
                                               context: context,
-                                              initialTime: TimeOfDay.now(),
+                                              initialTime: TimeOfDay(
+                                                  hour: widget.time.hour,
+                                                  minute: widget.time.minute),
                                             );
                                             if (pickerTime != null) {
                                               setState(() {
                                                 getTime = DateTime(
-                                                  getDate.year,
-                                                  getDate.month,
-                                                  getDate.day,
+                                                  widget.time.year,
+                                                  widget.time.month,
+                                                  widget.time.day,
                                                   pickerTime.hour,
                                                   pickerTime.minute,
                                                 );
@@ -409,7 +401,7 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                               type: widget.type,
                                               startDate: widget.startDate,
                                               endDate: widget.endDate,
-                                              time: getDate,
+                                              time: getTime,
                                               Remind: widget.remind,
                                               Repeat: widget.repeat,
                                             ));
@@ -425,7 +417,7 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                                 type: widget.type,
                                                 startDate: widget.startDate,
                                                 endDate: widget.endDate,
-                                                time: getDate,
+                                                time: getTime,
                                                 remind: widget.remind,
                                                 repeat: widget.repeat,
                                               );

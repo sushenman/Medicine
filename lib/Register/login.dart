@@ -63,19 +63,9 @@ class _LoginState extends State<Login> {
                   ),
                 ],
               ),
-              // child: Image.asset('assets/images/bookslogos.png', fit: BoxFit.cover,),
+             
             ),
-            // Positioned(
-            //   // top:0,
-            //   bottom: 200,
-            //   left: 100,
-            //   child: Center(
-            //     child: Container(
-            //       height: MediaQuery.of(context).size.height ,
-            //       child: Image.network('https://i.pinimg.com/originals/c7/b9/aa/c7b9aae8e7106049a72bf626f6a6bd96.png', height: 80,width: 200 , fit: BoxFit.contain,),
-            //     ),
-            //   ),
-            // ),
+       
             Positioned(
               bottom: 0,
               right: 0,
@@ -116,20 +106,7 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              // Center(
-                              //   child: Image.asset(
-                              //     'assets/images/login.png',
-                              //     height: 100,
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 20,
-                              // ),
-                              // Text(
-                              //   'Login',
-                              //   style: TextStyle(
-                              //       fontSize: 20, fontWeight: FontWeight.bold),
-                              // ),
+                            
                               SizedBox(
                                 height: 20,
                               ),
@@ -150,9 +127,7 @@ class _LoginState extends State<Login> {
                                     hintStyle: TextStyle(
                                       color: Colors.grey,
                                     ),
-                                    //                                   border: OutlineInputBorder(
-                                    //                                       borderRadius: BorderRadius.circular(10),
-                                    // ),
+                                
                                   ),
                                 ),
                               ),
@@ -194,9 +169,7 @@ class _LoginState extends State<Login> {
                                     hintStyle: TextStyle(
                                       color: Colors.grey,
                                     ),
-                                    //                                   border: OutlineInputBorder(
-                                    //                                       borderRadius: BorderRadius.circular(10),
-                                    // ),
+                                  
                                   ),
                                 ),
                               ),

@@ -49,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(0, 158, 148, 1),
-                      // minimumSize: Size(MediaQuery.of(context).size.width, 50),
+                   
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
@@ -71,8 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           }
                         }); 
         
-                        // Send password reset email
-                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => resetPassword() ) );
+                     
                     },
         
                     child: const Text('Check Email'),

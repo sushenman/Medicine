@@ -29,35 +29,8 @@ class _resetPasswordState extends State<resetPassword> {
 @override
 void initState() {
   super.initState();
-  // Initialize class_Name after accessing widget.keys
-  // _fetchRegisterByEmail();
-}
 
-// Future<void> _fetchRegisterByEmail() async {
-//   try {
-//     RegisterModel? register = await RegisterDbhelper.fetchRegisterByEmail(widget.email);
-//     if (register != null) {
-//       setState(() {
-//         id = register.id;
-//         firstname = register.firstname;
-//         lastname = register.lastname;
-//         phoneNumber = register.phonenumber;
-//         profileImage = register.ProfileImage;
-//         key = register.key;
-//       });
-//       print('id: $id');
-//       print('firstname: $firstname');
-//       print('lastname: $lastname');
-//       print('phoneNumber: $phoneNumber');
-//       print('profileImage: $profileImage');
-//       print('key: $key');
-//     } else {
-//       print('No record found for email: ${widget.email}');
-//     }
-//   } catch (e) {
-//     print('Error fetching register: $e');
-//   }
-// }
+}
 
 
   resetPass() {

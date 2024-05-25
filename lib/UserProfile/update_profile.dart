@@ -19,8 +19,8 @@ class _Update_ProfileState extends State<Update_Profile> {
   String name = '';
   String email = '';
   String phonenumber = '';
-  String password ='';
-  String image ='';
+  String password = '';
+  String image = '';
   String confirmpassword = '';
 
   TextEditingController firstController = TextEditingController();
@@ -39,7 +39,7 @@ class _Update_ProfileState extends State<Update_Profile> {
         image = user.ProfileImage;
         password = user.password;
         confirmpassword = user.confirmpassword;
-        id  = user.id;
+        id = user.id;
       } else {
         // Handle the case where user is null
       }
@@ -51,76 +51,74 @@ class _Update_ProfileState extends State<Update_Profile> {
     fetchUserProfile(widget.keys);
     super.initState();
   }
-Future<bool> _validateInputs() async {
-  if (firstController.text.isEmpty ||
-      lastController.text.isEmpty ||
-      emailController.text.isEmpty ||
-      phoneController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('All fields are required'),
-      ),
-    );
-    return false;
-  } else if (!emailController.text.contains('@')) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Invalid email format'),
-      ),
-    );
-    return false;
-  } else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text)) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Phone number must be digits only'),
-      ),
-    );
-    return false;
-  } else if (phoneController.text.length != 10) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Phone number must be 10 digits'),
-      ),
-    );
-    return false;
-  }
 
-  // Check if the email is already registered
-  final existingUser = await RegisterDbhelper.fetchRegisterByEmail(emailController.text);
-  if (existingUser != null) {
-    // Email already exists
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Email already registered'),
-      ),
-    );
-    return false;
-  } else {
+  Future<bool> _validateInputs() async {
+    if (firstController.text.isEmpty ||
+        lastController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All fields are required'),
+        ),
+      );
+      return false;
+    } else if (!emailController.text.contains('@')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid email format'),
+        ),
+      );
+      return false;
+    } else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Phone number must be digits only'),
+        ),
+      );
+      return false;
+    } else if (phoneController.text.length != 10) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Phone number must be 10 digits'),
+        ),
+      );
+      return false;
+    } else {
+      _updateProfile();
+
+      return true;
+    }
     // Email doesn't exist, proceed with the update process
-    _updateProfile();
-    return true;
   }
-}
 
-void _updateProfile() {
-  RegisterDbhelper.updateRegister(
-    RegisterModel(
-      firstname: firstController.text,
-      lastname: lastController.text,
-      email: emailController.text,
-      phonenumber: phoneController.text,
-      password: password,
-      confirmpassword: confirmpassword,
-      ProfileImage: image,
-      id: id,
-      key: widget.keys,
-    ),
-  );
-  final snackBar = SnackBar(
-    content: Text('Profile updated successfully'),
-  );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
+  void _updateProfile() {
+    RegisterDbhelper.updateRegister(
+      RegisterModel(
+        firstname: firstController.text,
+        lastname: lastController.text,
+        email: emailController.text,
+        phonenumber: phoneController.text,
+        password: password,
+        confirmpassword: confirmpassword,
+        ProfileImage: image,
+        id: id,
+        key: widget.keys,
+      ),
+    );
+    final snackBar = SnackBar(
+      content: Text('Profile updated successfully'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BottomNavBar(keys: widget.keys) ,
+      ),
+    );
+  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +158,8 @@ void _updateProfile() {
                   children: [
                     SizedBox(height: 10),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       padding: EdgeInsets.only(bottom: 20),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -168,7 +167,8 @@ void _updateProfile() {
                         color: Color.fromARGB(255, 233, 232, 232),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -190,10 +190,12 @@ void _updateProfile() {
                                 labelText: 'First Name',
                                 labelStyle: TextStyle(color: Colors.black),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                               ),
                             ),
@@ -215,10 +217,12 @@ void _updateProfile() {
                                 labelText: 'Last Name',
                                 labelStyle: TextStyle(color: Colors.black),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                               ),
                             ),
@@ -240,10 +244,12 @@ void _updateProfile() {
                                 labelText: 'Email',
                                 labelStyle: TextStyle(color: Colors.black),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                               ),
                             ),
@@ -265,10 +271,12 @@ void _updateProfile() {
                                 labelText: 'Phone Number',
                                 labelStyle: TextStyle(color: Colors.black),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 2),
+                                  borderSide:
+                                      BorderSide(color: Colors.black, width: 2),
                                 ),
                               ),
                             ),

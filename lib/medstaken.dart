@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medicine_reminder/Model/model.dart';
 import 'package:medicine_reminder/dbHelper/dbhelper.dart';
 import 'package:medicine_reminder/local_notification.dart';
@@ -14,6 +14,7 @@ class medsNotification extends StatefulWidget {
 }
 
 class _medsNotificationState extends State<medsNotification> {
+
   late List<Medicine> medicines = [];
   late DateTime selectedDate = DateTime.now();
   @override

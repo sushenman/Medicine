@@ -428,46 +428,13 @@ Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Container(
-                //   child: const Text(
-                //     'Repeat',
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.w500,
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
-                // MyInputTextField(
-                //   label: '$selectedRepeat',
-                //   customwi: DropdownButton(
-                //     padding: const EdgeInsets.only(left: 10),
-                //     isExpanded: true,
-                //     icon: const Icon(Icons.arrow_drop_down),
-                //     value: selectedRepeat,
-                //     items: RepeatList.map((String value) {
-                //       return DropdownMenuItem(
-                //         value: value,
-                //         child: Text(value.toString()),
-                //       );
-                //     }).toList(),
-                //     onChanged: (value) {
-                //       setState(() {
-                //         selectedRepeat = value as String;
-                //       });
-                //     },
-                //   ),
-                // ),
+             
                 const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Local_Notification.showSimpleNotification(id: 0, title: 'Tesst', body: 'Hello');
-                      addMedicine();
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => BottomNavBar(keys: widget.keys)),
-                      // );
+                     addMedicine();
+                    
                     },
                     child: const Text('Add Medicine'),
                     style: ElevatedButton.styleFrom(

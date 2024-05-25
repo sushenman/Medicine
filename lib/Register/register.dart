@@ -394,40 +394,7 @@ Future<void> _pickImage() async {
               ),
               ElevatedButton(
                 onPressed: () => registerUser(),
-                //         onPressed: () async {
-                //             if (_password.text == _confirmpassword.text) {
-                //   final snackBar = SnackBar(
-                //       elevation: 0,
-                //       backgroundColor: Colors.transparent,
-                //       behavior: SnackBarBehavior.floating,
-                //       content: AwesomeSnackbarContent(
-                //         title: 'Success',
-                //         message: 'Account created successfully',
-                //         contentType: ContentType.success,
-                //       ));
-                //   ScaffoldMessenger.of(context)
-                //     ..hideCurrentSnackBar()
-                //     ..showSnackBar(snackBar);
-                //   Future.delayed(Duration(seconds: 1), () {
-                //     Navigator.pushReplacement(context,
-                //         MaterialPageRoute(builder: (context) => Login()));
-                //   });
-                // } else {
-                //   final snackBar = SnackBar(
-                //       elevation: 0,
-                //       backgroundColor: Colors.transparent,
-                //       behavior: SnackBarBehavior.floating,
-                //       content: AwesomeSnackbarContent(
-                //         title: 'Error',
-                //         message: 'Error',
-                //         contentType: ContentType.failure,
-                //       ));
-                //   ScaffoldMessenger.of(context)
-                //     ..hideCurrentSnackBar()
-                //     ..showSnackBar(snackBar);
-                //   ;
-                // }
-                //         },
+             
                 child: Text(
                   'Register',
                   style: TextStyle(
