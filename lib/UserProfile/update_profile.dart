@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medicine_reminder/bottomNav.dart';
 import 'package:medicine_reminder/dbHelper/registerdbhelper.dart';
 import 'package:medicine_reminder/widgets/textfield.dart';
