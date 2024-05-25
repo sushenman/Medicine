@@ -1,6 +1,8 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:medicine_reminder/bottomNav.dart';
+import 'package:medicine_reminder/local_notification.dart';
 import 'package:medicine_reminder/widgets/textfield.dart';
 
 import 'package:medicine_reminder/Model/model.dart'; // Import your MedicineModel class
@@ -69,7 +71,10 @@ class _Remain_DoseState extends State<Remain_Dose> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-           Navigator.push( context, MaterialPageRoute(builder: (context) => BottomNavBar(keys: widget.keys) ) );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BottomNavBar(keys: widget.keys)));
           },
         ),
       ),
@@ -406,6 +411,32 @@ class _Remain_DoseState extends State<Remain_Dose> {
                                               Remind: widget.remind,
                                               Repeat: widget.repeat,
                                             ));
+                                            int id = DateTime.now()
+                                                .millisecondsSinceEpoch;
+                                            LocalNotification
+                                                .scheduleNotificationsForPeriod(
+                                              id: id,
+                                              title: 'Medicine Reminder',
+                                              body:
+                                                  'Please take your medicine ${widget.name} , dose: ${widget.dose}',
+                                              startDate: widget.startDate,
+                                              endDate: widget.endDate,
+                                              notificationTime:
+                                                  TimeOfDay.fromDateTime(
+                                                      getTime),
+                                              payload: {
+                                                'navigate': 'true',
+                                                'keys': widget.keys,
+                                              },
+                                              actionButtons: [
+                                                NotificationActionButton(
+                                                  key: 'TAKE',
+                                                  label: 'Take',
+                                                  actionType:
+                                                      ActionType.SilentAction,
+                                                ),
+                                              ],
+                                            );
                                             Navigator.pushReplacement(context,
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
