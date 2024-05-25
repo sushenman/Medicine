@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine_reminder/Model/model.dart';
 import 'package:medicine_reminder/Register/login.dart';
-import 'package:medicine_reminder/UserProfile/profile.dart';
 import 'package:medicine_reminder/dbHelper/dbhelper.dart';
-import 'package:medicine_reminder/addMeds.dart';
 import 'package:medicine_reminder/details.dart';
-import 'package:medicine_reminder/local_notification.dart';
-import 'package:medicine_reminder/medsHistory.dart';
-// import 'package:medicine_reminder/widgets/button.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class HomePage extends StatefulWidget {
-  
   final String keys;
   HomePage({required this.keys});
 
@@ -27,29 +21,28 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     print(widget.keys);
     fetchMedicines(selectedDate);
-    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchMedicines(selectedDate);
   }
 
   Future<void> fetchMedicines(DateTime selectedDate) async {
     List<Medicine> allMedicines = await DatabaseHelper.fetchMedicines();
     setState(() {
-      // Filter medicines based on start and end dates
-      //verify the keys and then only display the medicines
       medicines = allMedicines
-          .where((medicine) => medicine.keys == widget.keys)
+          .where((medicine) =>
+              medicine.keys == widget.keys &&
+              (medicine.startDate.isBefore(selectedDate) ||
+                  medicine.startDate.isAtSameMomentAs(selectedDate)) &&
+              (medicine.endDate.isAfter(selectedDate) ||
+                  medicine.endDate.isAtSameMomentAs(selectedDate)))
           .toList();
-      //now filter the medicines based on start date and end date
-      if (selectedDate != null) {
-        medicines = medicines
-            .where((medicine) =>
-                (medicine.startDate.isBefore(selectedDate) ||
-                    medicine.startDate.isAtSameMomentAs(selectedDate)) &&
-                (medicine.endDate.isAfter(selectedDate) ||
-                    medicine.endDate.isAtSameMomentAs(selectedDate)))
-            .toList();
-      }
     });
   }
 
@@ -59,16 +52,17 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Login()));
-              },
-              icon: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ))
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Login()));
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          )
         ],
         title: const Text(
           'Medi-Alert',
@@ -81,28 +75,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color.fromRGBO(62, 177, 110, 1),
         centerTitle: true,
         elevation: 0,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         Navigator.push(
-        //             context,
-        //             MaterialPageRoute(
-        //                 builder: (BuildContext context) => OrderHistory()));
-        //         // Local_Notification().scheduledNotification();
-        //       },
-        //       icon: Icon(
-        //         Icons.history,
-        //         color: Colors.black,
-        //       )),
-        //       IconButton(onPressed: (){
-        //         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> Profile(keys: widget.keys ) ) );
-        //       }, icon: Icon(Icons.person, color: Colors.black,))
-        // ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-            // color:  Color.fromRGBO(243, 243, 243, 1)
-            ),
         child: Column(
           children: [
             Container(
@@ -193,8 +167,7 @@ class _HomePageState extends State<HomePage> {
                   setState(() {
                     selectedDate = date;
                   });
-                  fetchMedicines(
-                      selectedDate); // Fetch medicines for the selected date
+                  fetchMedicines(selectedDate); // Fetch medicines for the selected date
                 },
               ),
             ),
@@ -210,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                   physics: BouncingScrollPhysics(),
                   itemCount: medicines.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Medicine medicine = medicines[index]; 
+                    Medicine medicine = medicines[index];
                     return GestureDetector(
                       onTap: () => Navigator.push(
                           context,
@@ -245,9 +218,8 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                        color:
-                                            Color.fromARGB(255, 170, 170, 170)
-                                                .withOpacity(0.8),
+                                        color: Color.fromARGB(255, 170, 170, 170)
+                                            .withOpacity(0.8),
                                         spreadRadius: 3,
                                         blurRadius: 6,
                                         offset: const Offset(0, 3),
@@ -284,9 +256,6 @@ class _HomePageState extends State<HomePage> {
                                                   fontFamily: 'Lato',
                                                   color: Colors.white),
                                             ),
-                                            // SizedBox(
-                                            //   height: 10,
-                                            // ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -302,7 +271,6 @@ class _HomePageState extends State<HomePage> {
                                                 Container(
                                                   child: IconButton(
                                                     onPressed: () {
-                                                      // Call deleteMedicine method with the specific medicine object
                                                       setState(() {
                                                         DatabaseHelper
                                                             .deleteMedicine(
@@ -329,7 +297,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     );
-                  
                   },
                 ),
               ),

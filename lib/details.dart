@@ -1,5 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:medicine_reminder/bottomNav.dart';
 import 'package:medicine_reminder/widgets/textfield.dart';
 
 import 'package:medicine_reminder/Model/model.dart'; // Import your MedicineModel class
@@ -68,7 +69,7 @@ class _Remain_DoseState extends State<Remain_Dose> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+           Navigator.push( context, MaterialPageRoute(builder: (context) => BottomNavBar(keys: widget.keys) ) );
           },
         ),
       ),
